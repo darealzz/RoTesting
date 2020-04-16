@@ -1,1 +1,99 @@
+import asyncio
+import discord
+from discord.ext import commands
+import json
+import os
+import random
+import jishaku
 
+
+bot = commands.Bot(command_prefix='$', case_insensitive=True)
+#bot.remove_command("help")
+bot.load_extension('jishaku')
+
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        bot.load_extension(f"cogs.{filename[:-3]}")
+
+
+@bot.event
+async def on_ready():
+    print("ready")
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} users"))
+
+@bot.event
+async def on_guild_join(guild):
+    channel = bot.get_channel(700309585264640000)
+    if not guild.icon:
+        embed=discord.Embed(title="NEW GUILD JOIN", color=0x2fdbff)
+        #embed.set_thumbnail(url=f"{guild.icon}")
+        embed.add_field(name="Guild Name:", value=f"{guild.name}", inline=False)
+        embed.add_field(name="Guild ID:", value=f"{guild.id}", inline=False)
+        embed.add_field(name="Guild Owner:", value=f"{guild.owner}", inline=False)
+        embed.add_field(name="Guild OwnerID:", value=f"{guild.owner_id}", inline=False)
+        embed.set_footer(text="Assets owned by RoSystems.")
+        await channel.send(embed=embed)
+    else:
+        embed=discord.Embed(title="NEW GUILD JOIN", color=0x2fdbff)
+        embed.set_thumbnail(url=f"{guild.icon_url}")
+        embed.add_field(name="Guild Name:", value=f"{guild.name}", inline=False)
+        embed.add_field(name="Guild ID:", value=f"{guild.id}", inline=False)
+        embed.add_field(name="Guild Owner:", value=f"{guild.owner}", inline=False)
+        embed.add_field(name="Guild OwnerID:", value=f"{guild.owner_id}", inline=False)
+        embed.set_footer(text="Assets owned by RoSystems.")
+        await channel.send(embed=embed)
+        await channel.send(guild.icon)
+
+@bot.command()
+@commands.is_owner()
+async def load(ctx, extension):
+    try:
+        bot.load_extension(f"cogs.{extension}")
+    except commands.errors.ExtensionAlreadyLoaded:
+        await ctx.send(f"<:rcross:700041862206980146> | **Cog already loaded: `{extension}`**")
+    else:
+        await ctx.send(f"<:tick:700041815327506532> | **Loaded Cog: `{extension}`**")
+
+@bot.command()
+@commands.is_owner()
+async def reload(ctx, extension):
+    try:
+        bot.unload_extension(f"cogs.{filename[:-3]}")
+    except commands.errors.ExtensionNotLoaded:
+        await ctx.send(f"<:rcross:700041862206980146> | **Cog not loaded: `{extension}`**")
+    else:
+        bot.load_extension(f"cogs.{filename[:-3]}")
+        await ctx.send(f"<:tick:700041815327506532> | **Realoded Cog: `{extension}`**")
+
+@bot.command()
+@commands.is_owner()
+async def unload(ctx, extension):
+    try:
+        bot.unload_extension(f"cogs.{extension}")
+    except commands.errors.ExtensionNotLoaded:
+        await ctx.send(f"<:rcross:700041862206980146> | **Cog not loaded: `{extension}`**")
+    else:
+        await ctx.send(f"<:tick:700041815327506532> | **Unloaded Cog: `{extension}`**")
+
+@bot.command()
+@commands.is_owner()
+async def reloadAll(ctx):
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            try:
+                bot.unload_extension(f"cogs.{filename[:-3]}")
+            except commands.errors.ExtensionNotLoaded:
+                await ctx.send(f"<:rcross:700041862206980146> | **Cog not loaded: `{filename[:-3]}`**")
+            else:
+                bot.load_extension(f"cogs.{filename[:-3]}")
+                await ctx.send(f"<:tick:700041815327506532> | **Realoded Cog: `{filename[:-3]}`**")
+    #await ctx.send(f"<:tick:700041815327506532> | `Reloaded the cogs`")
+
+@bot.command()
+@commands.is_owner()
+async def cogs(ctx):
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            await ctx.send(f"`{filename[:-3]}`")
+
+bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XpdcCw.iLUQeqLTh8OGnqk6RD_gMmpH-NM')
