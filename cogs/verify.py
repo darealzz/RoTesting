@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import time
 import sys
+import json
 import os
 import robloxapi
 import requests
@@ -13,8 +14,18 @@ class Verify(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-    @commands.is_owner()
+
+    async def in_guild(ctx):
+        with open('cogs/guilds.json', 'r') as f:
+            data = json.load(f)
+        if str(ctx.guild.id) in data:
+            return True
+        elif str(ctx.guild.id) not in data:
+            await ctx.send('<:rcross:700041862206980146> You must configure your server with RoServices before using this command, Use `setup`.')
+            raise
+
     @commands.command()
+    @commands.check(in_guild)
     async def verify(self, ctx):
 
         def check(m):
@@ -28,25 +39,25 @@ class Verify(commands.Cog):
         try:
             roblox_name = await self.bot.wait_for('message', check=check, timeout=200)
         except asyncio.exceptions.TimeoutError:
-            embed=discord.Embed(title="PROMPT TIMED OUT", color=0x36393e)
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
             return
 
         if roblox_name.content.upper() == "CANCEL":
-            embed=discord.Embed(title="PROMPT CANCELLED", color=0x36393e)
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
             return
 
         response = requests.get(url=f"https://api.roblox.com/users/get-by-username?username={roblox_name.content}")
-        json = response.json()
+        json_r = response.json()
         try:
-            userID = json['Id']
+            userID = json_r['Id']
         except KeyError:
-            embed=discord.Embed(title="ACCOUNT NOT FOUND, PROMPT CANCELLED.", color=0x36393e)
+            embed=discord.Embed(title="ACCOUNT NOT FOUND, PROMPT CANCELLED.", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
@@ -72,7 +83,7 @@ class Verify(commands.Cog):
             global wait_for_done
             wait_for_done = await self.bot.wait_for('message', check=check, timeout=200)
         except asyncio.exceptions.TimeoutError:
-            embed=discord.Embed(title="PROMPT TIMED OUT", color=0x36393e)
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
@@ -81,13 +92,13 @@ class Verify(commands.Cog):
         if wait_for_done.content.upper() == "DONE":
             pass
         elif wait_for_done.content.upper() == "CANCEL":
-            embed=discord.Embed(title="PROMPT CANCELLED", color=0x36393e)
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
             return
         elif wait_for_done.content.upper() not in ["DONE", "CANCEL"]:
-            embed=discord.Embed(title="PROMPT CANCELLED", color=0x36393e)
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Please provide a valid response: `done` or `cancel`.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
@@ -110,6 +121,13 @@ class Verify(commands.Cog):
         else:
             await ctx.send("<:rcross:700041862206980146> **We could not find the code on your profile, please restart the prompt and try again.**")
             return
+
+        with open('cogs/users.json', 'r') as f:
+            data = json.load(f)
+        with open('cogs/users.json', 'w') as f:
+            data[f"{ctx.author.id}"] = f"{roblox_name.content}"
+            json.dump(data, f, indent=4)
+        await ctx.send("<:tick:700041815327506532> **You have successfully been verified with RoServices!**")
 
 def setup(bot):
     bot.add_cog(Verify(bot))

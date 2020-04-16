@@ -42,7 +42,21 @@ async def on_guild_join(guild):
         embed.add_field(name="Guild OwnerID:", value=f"{guild.owner_id}", inline=False)
         embed.set_footer(text="Assets owned by RoSystems.")
         await channel.send(embed=embed)
-        await channel.send(guild.icon)
+        #for element in guild.channels:
+            #print(element)
+        NeWkchannel = await guild.create_text_channel('roservices')
+
+
+        await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `-help`\n:gear: To setup your server with RoServices type `-setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
+
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("<:rcross:700041862206980146> You can't run that command!")
+    else:
+        print(error)
 
 @bot.command()
 @commands.is_owner()
