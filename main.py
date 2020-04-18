@@ -51,12 +51,11 @@ async def on_guild_join(guild):
 
 
 
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CheckFailure):
-        await ctx.send("<:rcross:700041862206980146> You can't run that command!")
-    else:
-        print(error)
+#@bot.event
+#async def on_command_error(ctx, error):
+#    if isinstance(error, commands.CheckFailure):
+#        await ctx.send("<:rcross:700041862206980146> You can't run that command!")
+
 
 @bot.command()
 @commands.is_owner()
@@ -91,7 +90,7 @@ async def unload(ctx, extension):
 
 @bot.command()
 @commands.is_owner()
-async def reloadAll(ctx):
+async def r(ctx):
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             try:

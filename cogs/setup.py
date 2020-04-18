@@ -8,6 +8,22 @@ from bs4 import BeautifulSoup
 import random
 import asyncio
 
+class Role:
+    """
+    Represents a role.
+    """
+    def __init__(self, role_id: int, role_name: str, rank: int, members: int):
+        """
+        :param role_id: The roles id
+        :param role_name: The roles name
+        :param rank: The roles rank (255, 254, etc)
+        :param members: How many users have the role
+        """
+        self.id = role_id
+        self.name = role_name
+        self.rank = rank
+        self.member_count = members
+
 class Setup(commands.Cog):
 
     def __init__(self, bot):
@@ -44,13 +60,39 @@ class Setup(commands.Cog):
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
             await ctx.send(embed=embed)
-            return
+            return9
         else:
-            group_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{int(group_ID.content)}/roles')
+            try:
+                r = requests.get(url=f'https://groups.roblox.com/v1/groups/{int(group_ID.content)}/roles')
+            except ValueError:
+                embed=discord.Embed(title="ENTER A VALID ID, PROMPT CANCELLED", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices.")
+                await ctx.send(embed=embed)
+                return
+            #group = group_request.json()
             roles = []
-            for role in group_request.json().get('roles'):
-                role.append(roles)
-            await ctx.send(roles)
+            for role in r.json().get('roles'):
+                roles.append(Role(role['id'], role['name'], role['rank'], role['memberCount']))
+            new_roles = []
+            for x in roles:
+                new_roles.append(str(x.rank))
+            new_roles = [int(x) for x in new_roles]
+            new_roles.sort()
+
+            discord_role = []
+            async def disc_role_make():
+                for role in r.json().get('roles'):
+                    if role['rank'] == int(new_roles[0]):
+                        await ctx.guild.create_role(name=role["name"])
+                        new_roles.pop(0)
+                #await ctx.send(sorted(group, key = lambda i: int(i['rank'])))
+
+
+            #while len(new_roles) != 0:
+                #await disc_role_make()
+
+
 #https://www.roblox.com/users/{userId}/groups
 
 def setup(bot):
