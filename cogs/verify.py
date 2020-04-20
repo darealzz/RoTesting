@@ -10,7 +10,15 @@ from bs4 import BeautifulSoup
 import random
 import asyncio
 
-class Verify(commands.Cog):
+class Role:
+    def __init__(self, role_id: int, role_name: str, rank: int, members: int):
+
+        self.id = role_id
+        self.name = role_name
+        self.rank = rank
+        self.member_count = members
+
+class UserAuth(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -129,5 +137,111 @@ class Verify(commands.Cog):
             json.dump(data, f, indent=4)
         await ctx.send("<:tick:700041815327506532> **You have successfully been verified with RoServices!**")
 
+
+    @commands.command()
+    @commands.has_permissions(manage_guild=True)
+    async def setup(self, ctx):
+        def check(m):
+            return m.author == ctx.author
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value="Please ensure the bot has the correct permissions otherwise the setup will not work.", inline=False)
+        await ctx.send(embed=embed)
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value="What is your Roblox group ID?\n\n say **skip** to skip.\nsay **cancel** to cancel.", inline=False)
+        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+        await ctx.send(embed=embed)
+
+        try:
+            group_ID = await self.bot.wait_for('message', check=check, timeout=200)
+        except asyncio.exceptions.TimeoutError:
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoServices.")
+            await ctx.send(embed=embed)
+            return
+
+        if group_ID.content.upper() == 'SKIP':
+            pass
+        elif group_ID.content.upper() == 'CANCEL':
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoServices.")
+            await ctx.send(embed=embed)
+            return
+        else:
+            try:
+                r = requests.get(url=f'https://groups.roblox.com/v1/groups/{int(group_ID.content)}/roles')
+            except ValueError:
+                embed=discord.Embed(title="ENTER A VALID ID, PROMPT CANCELLED", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices.")
+                await ctx.send(embed=embed)
+                return
+            #group = group_request.json()
+            roles = []
+            for role in r.json().get('roles'):
+                roles.append(Role(role['id'], role['name'], role['rank'], role['memberCount']))
+            new_roles = []
+            for x in roles:
+                new_roles.append(str(x.rank))
+            new_roles = [int(x) for x in new_roles]
+            new_roles.sort()
+
+            discord_role = []
+            async def disc_role_make():
+                for role in r.json().get('roles'):
+                    if role['rank'] == int(new_roles[0]):
+                        await ctx.guild.create_role(name=role["name"])
+                        new_roles.pop(0)
+                #await ctx.send(sorted(group, key = lambda i: int(i['rank'])))
+
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value="""
+```
+{discord-name} --> changes to their Discord username
+{roblox-id} --> changes to their ROBLOX ID
+{roblox-name} --> changes to their ROBLOX Username
+{group-rank} --> changes to their current rank in the linked group
+Note: the {} must be included in the template```Enter the nickname layout you want for your server.\n\n say **skip** to skip.\nsay **cancel** to cancel.""", inline=False)
+        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+        await ctx.send(embed=embed)
+
+        try:
+            nickname_layout = await self.bot.wait_for('message', check=check, timeout=200)
+        except asyncio.exceptions.TimeoutError:
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoServices.")
+            await ctx.send(embed=embed)
+            return
+
+        if nickname_layout.content.upper() == 'SKIP':
+            pass
+        elif nickname_layout.content.upper() == 'CANCEL':
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoServices.")
+            await ctx.send(embed=embed)
+            return
+        else:
+            words = nickname_layout.content.split()
+            for i in words:
+                if i not in ['{discord-name}', '{roblox-id}', '{roblox-name}', '{group-rank}']:
+                    embed=discord.Embed(title="INVALID FORMAT/VALUES, PROMPT CANCELLED", color=0xee6551)
+                    embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                    embed.set_footer(text="All assets owned by RoServices.")
+                    await ctx.send(embed=embed)
+                    break
+                    return
+
+
+
+            #while len(new_roles) != 0:
+                #await disc_role_make()
+
+
 def setup(bot):
-    bot.add_cog(Verify(bot))
+    bot.add_cog(UserAuth(bot))

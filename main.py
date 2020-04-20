@@ -1,6 +1,6 @@
 import asyncio
 import discord
-from discord.ext import commands
+from discord.ext import tasks, commands
 import json
 import os
 import random
@@ -10,7 +10,7 @@ import jishaku
 bot = commands.Bot(command_prefix='$', case_insensitive=True)
 #bot.remove_command("help")
 bot.load_extension('jishaku')
-
+bot.remove_command("help")
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f"cogs.{filename[:-3]}")
@@ -19,7 +19,14 @@ for filename in os.listdir('./cogs'):
 @bot.event
 async def on_ready():
     print("ready")
+    change_status.start()
+
+@tasks.loop(seconds=60)
+async def change_status():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} users"))
+
+
+
 
 @bot.event
 async def on_guild_join(guild):
