@@ -15,9 +15,16 @@ class Info(commands.Cog):
         x = self.bot.latency*1000
         ping = round(x)
         embed=discord.Embed(title="PING", color=0x36393e)
-        embed.add_field(name=f"Average websocket latency", value=f"<:tick:700041815327506532> | `{ping} ms`", inline=False)
+        embed.add_field(name=f"Average websocket latency", value=f"`Pong | {ping} ms`", inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def help(self, ctx):
+        embed=discord.Embed(title="HELP PANNEL", description=f"Your prefix: `$` || Mandatory :`<>` | Optional: `[]`\n\nType `$help [CategoryName]` to view more category information.\n", color=0x36393e)
+        embed.add_field(name="__Info Category:__", value="`help`  `ping`", inline=False)
+        embed.add_field(name="__Config Category:__", value="`setup`", inline=False)
+        embed.add_field(name="__Owner Only:__", value="`load <cog>`  `unload <cog>`  `r`  `reload <cog>`", inline=False)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Info(bot))
