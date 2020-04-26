@@ -148,7 +148,7 @@ class Config(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-            groupUsers_request = requests.get(url=f"https://groups.roblox.com/v1/groups/{int(groupID_id)}/users/{int(x.name)}")
+            groupUsers_request = requests.get(url=f"https://groups.roblox.com/v1/groups/{int(groupID_id)}/users/{int(x.id)}")
             await ctx.send(groupUsers_request)
 
 
