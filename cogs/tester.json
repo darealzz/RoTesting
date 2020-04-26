@@ -1,0 +1,146 @@
+{
+     "previousPageCursor": "null",
+     "nextPageCursor": "2_1_d09dc216063e729176e256f6fa903dd5",
+     "data": [
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 116593815,
+                    "username": "lordDragonmaster112",
+                    "displayName": "lordDragonmaster112+DN"
+               },
+               "role": {
+                    "id": 34266627,
+                    "name": "[8] Head of Security",
+                    "rank": 9,
+                    "memberCount": 1
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 185635988,
+                    "username": "The_Fortaken",
+                    "displayName": "The_Fortaken+DN"
+               },
+               "role": {
+                    "id": 34123143,
+                    "name": "[5] Security",
+                    "rank": 6,
+                    "memberCount": 1
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 573280920,
+                    "username": "mightyduck123445",
+                    "displayName": "mightyduck123445+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 1159486467,
+                    "username": "Hockey3566",
+                    "displayName": "Hockey3566+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 114047853,
+                    "username": "IamSidzilla",
+                    "displayName": "IamSidzilla+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 513129713,
+                    "username": "DeputyBlue",
+                    "displayName": "DeputyBlue+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 266397796,
+                    "username": "littletucktuck",
+                    "displayName": "littletucktuck+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 629086208,
+                    "username": "pepeandrem032008",
+                    "displayName": "pepeandrem032008+DN"
+               },
+               "role": {
+                    "id": 34123069,
+                    "name": "[10] Manager",
+                    "rank": 14,
+                    "memberCount": 1
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 1242302230,
+                    "username": "Cute_GalaxyWolf235",
+                    "displayName": "Cute_GalaxyWolf235+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          },
+          {
+               "user": {
+                    "buildersClubMembershipType": "None",
+                    "userId": 1258233717,
+                    "username": "pariona100300p",
+                    "displayName": "pariona100300p+DN"
+               },
+               "role": {
+                    "id": 34266639,
+                    "name": "[1] Resort Guest",
+                    "rank": 1,
+                    "memberCount": 82
+               }
+          }
+     ]
+}
