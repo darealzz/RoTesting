@@ -45,7 +45,29 @@ class Config(commands.Cog):
         await ctx.send(embed=embed)
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
-        embed.add_field(name="<:logo:700042045447864520>", value="What is the ROBLOX account token?\n\nsay **cancel** to cancel.", inline=False)
+        embed.add_field(name="<:logo:700042045447864520>", value="""What is the ROBLOX account token?\n\nsay **cancel** to cancel.\n\n
+        *How to get the account token:*
+
+**NOTE: CREATE A SEPERATE ACCOUNT FOR THIS, DO NOT USE YOUR PERSONAL ACCOUNT.**
+
+```json
+Step 1; Log into the account.
+
+Step 2; Right click and press on the 'Inspect' option (or Ctrl+Shift+I).
+
+Step 3; ([If applicable] Press the '>>' arrows) and click 'Application'.
+
+Step 4; Look through the 'Name' Colum and find the box called '.ROBLOSECURITY'.
+
+Step 5; Double click on the corresponding value then copy it to your clipboard.
+
+Step 6; Click on any part of the row ONCE.
+
+Step 7; Press either 'del' or 'backspace' on your keyboard until the row disappears.
+
+Step 8; Refresh the page.
+
+Do not login to this account anymore as it will reset the token.```""", inline=False)
         embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
         await ctx.send(embed=embed)
 
@@ -147,9 +169,73 @@ class Config(commands.Cog):
                 embed.set_footer(text="All assets owned by RoServices.")
                 await ctx.send(embed=embed)
                 return
+            except TypeError:
+                embed=discord.Embed(title="THERE WAS AN ERROR RETREIVING DATA, PROMPT CANCELLED", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices.")
+                await ctx.send(embed=embed)
+                return
 
-            groupUsers_request = requests.get(url=f"https://groups.roblox.com/v1/groups/{int(groupID_id)}/users/{int(x.id)}")
-            await ctx.send(groupUsers_request)
+            groupUsers_request = requests.get(url=f"https://groups.roblox.com/v1/users/{int(x.id)}/groups/roles")
+            groupUsers_json = groupUsers_request.json()
+
+            lsts = []
+            for elt in groupUsers_json['data']:
+                if int(groupID.content) == elt['group']['id']:
+                    lsts.append(elt['group']['id'])
+
+            if len(lsts) == 1:
+                pass
+            else:
+                embed=discord.Embed(title="THIS ACCOUNT IS NOT IN THE GIVEN GROUP, PROMPT CANCELLED", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices.")
+                await ctx.send(embed=embed)
+                return
+
+            embed=discord.Embed(title="PROMPT", color=0x36393e)
+            embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Group-name`: {groupID_name}\n`Group-ID`: {groupID_id}\n`Group-MemberCount`: {groupID_memberCount}\n`Group-Owner`: {groupID_owner}\n`Group-OwnerID`: {groupID_ownerID}\n\nsay **cancel** to cancel.", inline=False)
+            embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+            msg = await ctx.send(embed=embed)
+            await msg.add_reaction('<:tick:700041815327506532>')
+            await msg.add_reaction('<:rcross:700041862206980146>')
+            tick = self.bot.get_emoji(700041815327506532)
+            cross = self.bot.get_emoji(700041862206980146)
+            try:
+                reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
+            except asyncio.exceptions.TimeoutError:
+                embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices.")
+                await ctx.send(embed=embed)
+                return
+            else:
+                if reaction.emoji == tick:
+                    pass
+                elif reaction.emoji == cross:
+                    await token_cookie.delete()
+                    embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
+                    embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                    embed.set_footer(text="All assets owned by RoServices.")
+                    await ctx.send(embed=embed)
+                    return
+
+        embed=discord.Embed(title="SERVER CONFIGURED SUCCESFULLY", color=0x1de97b)
+        embed.set_footer(text="All assets owned by RoServices.")
+        await ctx.send(embed=embed)
+
+        with open('data/groupdata.json', 'r') as f:
+            data = json.load(f)
+
+        with open('data/groupdata.json', 'w') as f:
+            if ctx.guild.id not in data:
+                data[ctx.guild.id] = {}
+            data[ctx.guild.id] = ({
+            "Cookie": f"{token_cookie.content}",
+            "ID": int(groupID.content)
+            })
+            json.dump(data, f, indent=4)
+
 
 
     # @commands.command()

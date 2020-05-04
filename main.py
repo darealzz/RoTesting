@@ -5,7 +5,7 @@ import json
 import os
 import random
 import jishaku
-
+import psycopg2
 
 bot = commands.Bot(command_prefix='$', case_insensitive=True)
 #bot.remove_command("help")
@@ -14,6 +14,14 @@ bot.remove_command("help")
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f"cogs.{filename[:-3]}")
+
+# con = psycopg2.connect(
+#             host = "sikli",
+#             database = "RoSystems",
+#             user = "postgres",
+#             password = "postgres")
+#
+# cur = con.cursor()
 
 
 @bot.event
@@ -24,8 +32,6 @@ async def on_ready():
 @tasks.loop(seconds=60)
 async def change_status():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} users"))
-
-
 
 
 @bot.event
@@ -54,14 +60,25 @@ async def on_guild_join(guild):
         NeWkchannel = await guild.create_text_channel('roservices')
 
 
-        await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `-help`\n:gear: To setup your server with RoServices type `-setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
+        await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
 
 
-#@bot.event
-#async def on_command_error(ctx, error):
-#    if isinstance(error, commands.CheckFailure):
-#        await ctx.send("<:rcross:700041862206980146> You can't run that command!")
+@bot.event
+async def on_command_error(ctx, error):
+    Guild = bot.get_guild(699991602126389248)
+    channel = Guild.get_channel(706942712242372679)
+    embed=discord.Embed(title="AN ERROR OCCURED", color=0xee6551)
+    embed.add_field(name="<:logo:700042045447864520>", value="Oh no! It seems you have discovered an error, don't worry, it has been reported to our development team.", inline=False)
+    embed.set_footer(text="All assets owned by RoServices.")
+    await ctx.send(embed=embed)
+
+    embed=discord.Embed(title="NEW ERROR", color=0xee6551)
+    embed.add_field(name="Guild-ID:", value=f"`{ctx.guild.id}`", inline=False)
+    embed.add_field(name="Command:", value=f"`{ctx.message.content}`", inline=False)
+    embed.add_field(name="Error:", value=f"`{error}`", inline=False)
+    embed.set_footer(text="All assets owned by RoServices.")
+    await channel.send(embed=embed)
 
 
 @bot.command()
@@ -116,4 +133,5 @@ async def cogs(ctx):
         if filename.endswith('.py'):
             await ctx.send(f"`{filename[:-3]}`")
 
+# con.close()
 bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XpdcCw.iLUQeqLTh8OGnqk6RD_gMmpH-NM')
