@@ -11,7 +11,7 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-@client.command()
+@bot.command()
 async def reportbug(ctx):
     def reactionCheck(reaction, user):
         if user == ctx.author and reaction.emoji == tick:
@@ -24,7 +24,7 @@ async def reportbug(ctx):
     embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
     embed.add_field(name="<:logo:700042045447864520>", value=f"Please describe your issue with as many details as possible, please also include 'how to replicate this.' If you have any pictures please use a LINK.", inline=False)
     await ctx.send(embed=embed)
-    bug = await client.wait_for('message', timeout=200, check=check)
+    bug = await bot.wait_for('message', timeout=200, check=check)
     guild = ctx.guild
     id = guild.id
     embed=discord.Embed(title="BUG REPORT", color=0x36393e)
@@ -39,10 +39,10 @@ async def reportbug(ctx):
     msg = await ctx.send(embed=embed)
     await msg.add_reaction('<:tick:700041815327506532>')
     await msg.add_reaction('<:rcross:700041862206980146>')
-    tick = client.get_emoji(700041815327506532)
-    cross = client.get_emoji(700041862206980146)
+    tick = bot.get_emoji(700041815327506532)
+    cross = bot.get_emoji(700041862206980146)
     try:
-        reaction, user = await client.wait_for('reaction_add', timeout=200, check=reactionCheck)
+        reaction, user = await bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
     except asyncio.exceptions.TimeoutError:
         embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
         embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
@@ -64,7 +64,7 @@ async def reportbug(ctx):
 
             guild = ctx.guild
             id = guild.id
-            guild1 = client.get_guild(699991602126389248)
+            guild1 = bot.get_guild(699991602126389248)
             channel = guild1.get_channel(702884858770489344)
             embed=discord.Embed(title="BUG REPORTED", color=0x36393e)
             embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
@@ -84,14 +84,14 @@ async def reportbug(ctx):
             await ctx.send(embed=embed)
             return
 
-@client.command()
+@bot.command()
 async def invite(ctx):
-    await ctx.author.send('<:logo:700042045447864520>Hey there!\n\n<:logo:700042045447864520>Need support? Check out our support server: https://discord.gg/7pusanw\n\n<:logo:700042045447864520>Want the bot for yourself? Click the link and invite it to your server today! https://discordapp.com/oauth2/authorize?client_id=700020186371326054&scope=bot&permissions=8\n\n<:logo:700042045447864520>Our team hopes you enjoy our bot, we have put alot of effort into this.')
+    await ctx.author.send('<:logo:700042045447864520>Hey there!\n\n<:logo:700042045447864520>Need support? Check out our support server: https://discord.gg/7pusanw\n\n<:logo:700042045447864520>Want the bot for yourself? Click the link and invite it to your server today! https://discordapp.com/oauth2/authorize?bot_id=700020186371326054&scope=bot&permissions=8\n\n<:logo:700042045447864520>Our team hopes you enjoy our bot, we have put alot of effort into this.')
     await ctx.send(f'{ctx.author.mention}, Check your DMs!')
 
 
 # Mute command
-@client.command(pass_context=True)
+@bot.command(pass_context=True)
 @commands.has_permissions(manage_messages=True)
 async def Mute(ctx, member : discord.Member):
     role = discord.utils.get(member.guild.roles, name='Muted')
@@ -109,7 +109,7 @@ async def Mute(ctx, member : discord.Member):
     embed.set_footer(text="All assets owned by RoSystems")
     await ctx.send(embed=embed)
 
-    logs = client.get_channel(701944694174908497)
+    logs = bot.get_channel(701944694174908497)
     embed=discord.Embed(title="USER MUTED", color=0x00E5E5)
     embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
     embed.add_field(name="Muted:", value=f"{member}", inline=False)
@@ -120,7 +120,7 @@ async def Mute(ctx, member : discord.Member):
 
 
 # Unmute command
-@client.command(pass_context=True)
+@bot.command(pass_context=True)
 @commands.has_permissions(manage_messages=True)
 async def Unmute(ctx, member : discord.Member):
     role = discord.utils.get(member.guild.roles, name='Muted')
@@ -132,7 +132,7 @@ async def Unmute(ctx, member : discord.Member):
 #############################################################
 
 # Ban Command
-@client.command()
+@bot.command()
 @commands.has_permissions(ban_members=True)
 async def Ban(ctx, member : discord.Member, *,reason=None):
     embed = discord.Embed(title=f"Are you sure you want to Ban `{member}` ?", description=f" ", color=0x00E5E5)
@@ -146,7 +146,7 @@ async def Ban(ctx, member : discord.Member, *,reason=None):
                 return True
             if user == ctx.message.author and str(reaction.emoji) == '\U0000274c':
                 return True
-    reaction, user = await client.wait_for('reaction_add', check=check)
+    reaction, user = await bot.wait_for('reaction_add', check=check)
     if str(reaction.emoji) == '\U00002705':
         try:
             embed = discord.Embed(title='You have been Banned!', color=0xD30000)
@@ -164,7 +164,7 @@ async def Ban(ctx, member : discord.Member, *,reason=None):
         embed.set_footer(text="All assets owned by RoSystems")
         await ctx.send(embed=embed)
 
-        logs = client.get_channel(701944694174908497)
+        logs = bot.get_channel(701944694174908497)
         embed=discord.Embed(title="USER BANNED", color=0x00E5E5)
         embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
         embed.add_field(name="Banned:", value=f"{member}", inline=False)
@@ -179,7 +179,7 @@ async def Ban(ctx, member : discord.Member, *,reason=None):
 #############################################################
 
 # Unban command
-@client.command()
+@bot.command()
 @commands.has_permissions(ban_members=True)
 async def Unban(ctx, *, member):
     bans = await ctx.guild.bans()
@@ -195,7 +195,7 @@ async def Unban(ctx, *, member):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
-            logs = client.get_channel(701944694174908497)
+            logs = bot.get_channel(701944694174908497)
             embed=discord.Embed(title="USER UNBANNED", color=0x00E5E5)
             embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
             embed.add_field(name="Unbanned:", value=f"{user.name}#{user.discriminator}", inline=False)
@@ -205,7 +205,7 @@ async def Unban(ctx, *, member):
 #############################################################
 
 # Kick command
-@client.command()
+@bot.command()
 @commands.has_permissions(kick_members=True)
 async def Kick(ctx, member : discord.Member, *,reason=None):
     embed = discord.Embed(title=f"Are you sure you want to Kick `{member}` ?", description=f" ", color=0x00E5E5)
@@ -219,7 +219,7 @@ async def Kick(ctx, member : discord.Member, *,reason=None):
                 return True
             if user == ctx.message.author and str(reaction.emoji) == '\U0000274c':
                 return True
-    reaction, user = await client.wait_for('reaction_add', check=check)
+    reaction, user = await bot.wait_for('reaction_add', check=check)
     if str(reaction.emoji) == '\U00002705':
         try:
             embed = discord.Embed(title='You have been Kicked!', color=0xD30000)
@@ -237,7 +237,7 @@ async def Kick(ctx, member : discord.Member, *,reason=None):
         embed.set_footer(text="All assets owned by RoSystems")
         await ctx.send(embed=embed)
 
-        logs = client.get_channel(701944694174908497)
+        logs = bot.get_channel(701944694174908497)
         embed=discord.Embed(title="USER KICKED", color=0x00E5E5)
         embed.set_author(name=f"{ctx.message.author}", icon_url=f'{ctx.author.avatar_url_as(format="png")}')
         embed.add_field(name="Kicked:", value=f"{member}", inline=False)
@@ -252,8 +252,8 @@ async def Kick(ctx, member : discord.Member, *,reason=None):
 #############################################################
 
 # Clear command
-@client.command()
-@commands.has_permissions(manage_message=True)
+@bot.command()
+@commands.has_permissions(manage_messages=True)
 async def purge(ctx, num: int, target: discord.Member=None):
     if num > 500 or num < 0:
         return await ctx.send("`Invalid amount. Maximum is 500.`")
@@ -268,7 +268,7 @@ async def purge(ctx, num: int, target: discord.Member=None):
 #############################################################
 
 # Nuke command
-@client.command()
+@bot.command()
 @commands.is_owner()
 async def nuke(ctx):
     await ctx.channel.purge(limit=99999999999999)
