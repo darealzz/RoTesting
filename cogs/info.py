@@ -23,6 +23,7 @@ class Info(commands.Cog):
         embed=discord.Embed(title="HELP PANNEL", description=f"Your prefix: `$` || Mandatory :`<>` | Optional: `[]`\n\nType `$help [CategoryName]` to view more category information.\n", color=0x36393e)
         embed.add_field(name="__Info Category:__", value="`help`  `ping`", inline=False)
         embed.add_field(name="__Config Category:__", value="`setup`", inline=False)
+        embed.add_field(name="__Ranking Category:__", value="`setrank`  `promote`  `demote`  `showrank`  `fire`", inline=False)
         embed.add_field(name="__Owner Only:__", value="`load <cog>`  `unload <cog>`  `r`  `reload <cog>`", inline=False)
         await ctx.send(embed=embed)
 
