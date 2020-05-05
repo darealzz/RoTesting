@@ -24,7 +24,8 @@ class Info(commands.Cog):
         embed.add_field(name="__Info Category:__", value="`help`  `ping`", inline=False)
         embed.add_field(name="__Config Category:__", value="`setup`", inline=False)
         embed.add_field(name="__Ranking Category:__", value="`setrank`  `promote`  `demote`  `showrank`  `fire`", inline=False)
-        embed.add_field(name="__Owner Only:__", value="`load <cog>`  `unload <cog>`  `r`  `reload <cog>`", inline=False)
+        embed.add_field(name="__Moderation Category:__", value="`Ban`  `Unban`  `Mute`  `Unmute`  `kick` `purge`", inline=False)
+        embed.add_field(name="__Owner Only:__", value="`load <cog>`  `unload <cog>`  `r`  `reload <cog>` `nuke`", inline=False)
         await ctx.send(embed=embed)
 
 def setup(bot):
