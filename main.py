@@ -31,7 +31,7 @@ async def on_ready():
 
 @tasks.loop(seconds=60)
 async def change_status():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} users"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(client.guilds)} Servers, {len(client.users)} Users"))
 
 
 @bot.event
@@ -134,4 +134,4 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XpdcCw.iLUQeqLTh8OGnqk6RD_gMmpH-NM')
+bot.run('NzAwMDIwMTg2MzcxMzI2MDU0.XqBLWg.KdyEFkVqeeLpC4VMLrWBLlbN7Lg')
