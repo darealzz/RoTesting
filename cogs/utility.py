@@ -12,8 +12,11 @@ class utility(commands.Cog):
         self.bot = bot
 
     @commands.has_permissions(kick_members=True)
-    @commands.command()
+    @commands.command(description="Kicks a user from the discord server.")
     async def kick(self, ctx, member:discord.Member=None, *, reason=None):
+        """
+        Kicks a user from the discord server.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
@@ -68,8 +71,11 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.has_permissions(ban_members=True)
-    @commands.command()
+    @commands.command(description="Bans a user from the discord server.")
     async def ban(self, ctx, member:discord.Member=None, *, reason=None):
+        """
+        Bans a user from the discord server.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
@@ -124,8 +130,11 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.has_permissions(ban_members=True)
-    @commands.command()
+    @commands.command(description="Unbans a user from the discord server.")
     async def unban(self, ctx, id: int=None):
+        """
+        Unbans a user from the discord server.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
@@ -173,8 +182,11 @@ class utility(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.has_permissions(manage_messages=True)
-    @commands.command()
+    @commands.command(description="Purges the specified ammount of messages.")
     async def purge(self, ctx, num: int, target: discord.Member=None):
+        """
+        Purges the specified ammount of messages.
+        """
         if num > 500 or num < 0:
             return await ctx.send("<:rcross:700041862206980146> **Invalid amount. Maximum is 500.**")
         def msgcheck(amsg):
@@ -187,8 +199,11 @@ class utility(commands.Cog):
         await ctx.send(f'`Deleted {num} messages for you.`', delete_after=10)
 
     @commands.has_permissions(manage_messages=True)
-    @commands.command()
+    @commands.command(description="Mutes a user for a specified ammount of time.")
     async def mute(self, ctx, member: discord.Member, time: int=None):
+        """
+        Mutes a user for a specified ammount of time.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
@@ -247,8 +262,11 @@ class utility(commands.Cog):
         await member.remove_roles(Muted)
 
     @commands.has_permissions(manage_messages=True)
-    @commands.command()
+    @commands.command(description="Unmutes a user.")
     async def unmute(self, ctx, member: discord.Member=None):
+        """
+        Unmutes a user.
+        """
         if not member:
             pass
         def reactionCheck(reaction, user):

@@ -24,10 +24,12 @@ class Ranking(commands.Cog):
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
             return
     @commands.check(configured)
-    @commands.command()
+    @commands.command(description="Sets the rank for a specific user to a specific rank.")
     @commands.has_permissions(manage_guild=True)
     async def setrank(self, ctx, user=None, *, rank=None):
-        """b
+        """
+        Sets the rank for a specific user to a specific rank.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
@@ -132,9 +134,12 @@ class Ranking(commands.Cog):
             return
 
     @commands.check(configured)
-    @commands.command()
+    @commands.command(description="Promotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
     async def promote(self, ctx, user=None):
+        """
+        Promotes a user by one rank.
+        """
         if not user:
             embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
@@ -227,9 +232,12 @@ class Ranking(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.check(configured)
-    @commands.command()
+    @commands.command(description="Demotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
     async def demote(self, ctx, user=None):
+        """
+        Demotes a user by one rank.
+        """
         if not user:
             embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
@@ -323,8 +331,11 @@ class Ranking(commands.Cog):
 
 
     @commands.check(configured)
-    @commands.command()
+    @commands.command(description="Displays the users rank in the set group.")
     async def showrank(self, ctx, user=None):
+        """
+        Displays the users rank in the set group.
+        """
         if not user:
             embed=discord.Embed(title="PLEASE PROVIDE ALL AURGUMENTS", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` to see more info.", inline=False)
@@ -354,9 +365,12 @@ class Ranking(commands.Cog):
             msg = await ctx.send(embed=embed)
 
     @commands.check(configured)
-    @commands.command()
+    @commands.command(description="Demotes a user to the lowest rank.")
     @commands.has_permissions(manage_guild=True)
     async def fire(self, ctx, user=None):
+        """
+        Demotes a user to the lowest rank.
+        """
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True

@@ -27,11 +27,14 @@ for filename in os.listdir('./cogs'):
 async def on_ready():
     print("ready")
     change_status.start()
+    change_statuss.start()
 
-@tasks.loop(seconds=60)
+@tasks.loop(seconds=20)
 async def change_status():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
-
+@tasks.loop(seconds=40)
+async def change_statuss():
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
 
 @bot.event
 async def on_guild_join(guild):
@@ -64,9 +67,12 @@ async def on_guild_join(guild):
 
 
 
-@bot.command()
+@bot.command(description="Owner only.")
 @commands.is_owner()
 async def load(ctx, extension):
+    """
+    Loads cogs.
+    """
     try:
         bot.load_extension(f"cogs.{extension}")
     except commands.errors.ExtensionAlreadyLoaded:
@@ -74,9 +80,12 @@ async def load(ctx, extension):
     else:
         await ctx.send(f"<:tick:700041815327506532> | **Loaded Cog: `{extension}`**")
 
-@bot.command()
+@bot.command(description="Owner only.")
 @commands.is_owner()
 async def reload(ctx, extension):
+    """
+    Reloads specific cog.
+    """
     try:
         bot.unload_extension(f"cogs.{filename[:-3]}")
     except commands.errors.ExtensionNotLoaded:
@@ -85,9 +94,12 @@ async def reload(ctx, extension):
         bot.load_extension(f"cogs.{filename[:-3]}")
         await ctx.send(f"<:tick:700041815327506532> | **Realoded Cog: `{extension}`**")
 
-@bot.command()
+@bot.command(description="Owner only.")
 @commands.is_owner()
 async def unload(ctx, extension):
+    """
+    Unloads specific cog.
+    """
     try:
         bot.unload_extension(f"cogs.{extension}")
     except commands.errors.ExtensionNotLoaded:
@@ -95,9 +107,12 @@ async def unload(ctx, extension):
     else:
         await ctx.send(f"<:tick:700041815327506532> | **Unloaded Cog: `{extension}`**")
 
-@bot.command()
+@bot.command(description="Owner only.")
 @commands.is_owner()
 async def r(ctx):
+    """
+    Reloads all cogs.
+    """
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             try:
@@ -109,9 +124,12 @@ async def r(ctx):
                 await ctx.send(f"<:tick:700041815327506532> | **Realoded Cog: `{filename[:-3]}`**")
     #await ctx.send(f"<:tick:700041815327506532> | `Reloaded the cogs`")
 
-@bot.command()
+@bot.command(description="Owner only.")
 @commands.is_owner()
 async def cogs(ctx):
+    """
+    Shows all cogs.
+    """
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             await ctx.send(f"`{filename[:-3]}`")
