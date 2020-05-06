@@ -30,7 +30,7 @@ async def on_ready():
 
 @tasks.loop(seconds=60)
 async def change_status():
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(client.users)} Users"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
 
 
 @bot.event

@@ -6,14 +6,14 @@ import os
 import asyncio
 import random
 from discord.utils import get
-class Utility(commands.Cog):
+class utility(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-
+    #
     # @comands.command()
-    # async def on
+    # async def kick()
 
 
 def setup(bot):
-    bot.add_cog(Utility(bot))
+    bot.add_cog(utility(bot))

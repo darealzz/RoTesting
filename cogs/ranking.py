@@ -22,8 +22,7 @@ class Ranking(commands.Cog):
             return True
         elif str(ctx.guild.id) not in data:
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
-            raise
-
+            return
     @commands.check(configured)
     @commands.command()
     @commands.has_permissions(manage_guild=True)
