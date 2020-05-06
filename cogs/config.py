@@ -76,14 +76,14 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
         except asyncio.exceptions.TimeoutError:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
 
         if token_cookie.content.upper() == 'CANCEL':
             embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
         else:
@@ -96,7 +96,7 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
             except:
                 embed=discord.Embed(title="AN INVALID TOKEN WAS GIVEN", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
         embed=discord.Embed(title="PROMPT", color=0x36393e)
@@ -112,13 +112,13 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
         except asyncio.exceptions.TimeoutError:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
         if token_cookie.content.upper() == 'CANCEL':
             embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
         else:
@@ -129,7 +129,7 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
                 await token_cookie.delete()
                 embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
 
@@ -144,14 +144,14 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
         except asyncio.exceptions.TimeoutError:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
 
         if groupID.content.upper() == 'CANCEL':
             embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
+            embed.set_footer(text="All assets owned by RoServices")
             await ctx.send(embed=embed)
             return
         else:
@@ -166,13 +166,13 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
             except KeyError:
                 embed=discord.Embed(title="GROUP DOES NOT EXIST, PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
             except TypeError:
                 embed=discord.Embed(title="THERE WAS AN ERROR RETREIVING DATA, PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
 
@@ -189,7 +189,7 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
             else:
                 embed=discord.Embed(title="THIS ACCOUNT IS NOT IN THE GIVEN GROUP, PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
 
@@ -206,7 +206,7 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
             except asyncio.exceptions.TimeoutError:
                 embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
+                embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
             else:
@@ -216,12 +216,12 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
                     await token_cookie.delete()
                     embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
                     embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
-                    embed.set_footer(text="All assets owned by RoSystems")
+                    embed.set_footer(text="All assets owned by RoServices")
                     await ctx.send(embed=embed)
                     return
 
         embed=discord.Embed(title="SERVER CONFIGURED SUCCESFULLY", color=0x1de97b)
-        embed.set_footer(text="All assets owned by RoSystems")
+        embed.set_footer(text="All assets owned by RoServices")
         await ctx.send(embed=embed)
 
         with open('data/groupdata.json', 'r') as f:
