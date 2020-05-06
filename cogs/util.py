@@ -91,7 +91,7 @@ async def invite(ctx):
 
 
 # Mute command
-@bot.command(pass_context=True)
+@commands.command(pass_context=True)
 @commands.has_permissions(manage_messages=True)
 async def Mute(ctx, member : discord.Member):
     role = discord.utils.get(member.guild.roles, name='Muted')
@@ -120,7 +120,7 @@ async def Mute(ctx, member : discord.Member):
 
 
 # Unmute command
-@bot.command(pass_context=True)
+@commands.command(pass_context=True)
 @commands.has_permissions(manage_messages=True)
 async def Unmute(ctx, member : discord.Member):
     role = discord.utils.get(member.guild.roles, name='Muted')
