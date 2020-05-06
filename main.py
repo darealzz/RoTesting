@@ -5,7 +5,6 @@ import json
 import os
 import random
 import jishaku
-import psycopg2
 
 bot = commands.Bot(command_prefix='$', case_insensitive=True)
 #bot.remove_command("help")
