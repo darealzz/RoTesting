@@ -20,7 +20,7 @@ class Errors(commands.Cog):
         if isinstance(error, commands.BadArgument):
             await ctx.send("<:rcross:700041862206980146> You did not give valid peramiters for that command!.")
         else:
-            Guild = bot.get_guild(699991602126389248)
+            Guild = self.bot.get_guild(699991602126389248)
             channel = Guild.get_channel(706942712242372679)
             embed=discord.Embed(title="AN ERROR OCCURED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Oh no! It seems you have discovered an error, don't worry, it has been reported to our development team.", inline=False)
@@ -35,5 +35,5 @@ class Errors(commands.Cog):
             await channel.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Errors(bot))
+def setup(self.bot):
+    self.bot.add_cog(Errors(self.bot))
