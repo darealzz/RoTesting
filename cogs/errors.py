@@ -35,5 +35,5 @@ class Errors(commands.Cog):
             await channel.send(embed=embed)
 
 
-def setup(self.bot):
-    self.bot.add_cog(Errors(bot))
+def setup(bot):
+    bot.add_cog(Errors(bot))
