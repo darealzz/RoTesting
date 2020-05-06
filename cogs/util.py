@@ -84,10 +84,10 @@ async def reportbug(ctx):
             await ctx.send(embed=embed)
             return
 
-@commands.command()
-async def invite(ctx):
-    await ctx.author.send('<:logo:700042045447864520>Hey there!\n\n<:logo:700042045447864520>Need support? Check out our support server: https://discord.gg/7pusanw\n\n<:logo:700042045447864520>Want the bot for yourself? Click the link and invite it to your server today! https://discordapp.com/oauth2/authorize?bot_id=700020186371326054&scope=bot&permissions=8\n\n<:logo:700042045447864520>Our team hopes you enjoy our bot, we have put alot of effort into this.')
-    await ctx.send(f'{ctx.author.mention}, Check your DMs!')
+    @commands.command()
+    async def invite(ctx):
+        await ctx.author.send('<:logo:700042045447864520>Hey there!\n\n<:logo:700042045447864520>Need support? Check out our support server: https://discord.gg/7pusanw\n\n<:logo:700042045447864520>Want the bot for yourself? Click the link and invite it to your server today! https://discordapp.com/oauth2/authorize?bot_id=700020186371326054&scope=bot&permissions=8\n\n<:logo:700042045447864520>Our team hopes you enjoy our bot, we have put alot of effort into this.')
+        await ctx.send(f'{ctx.author.mention}, Check your DMs!')
 
 
 # Mute command
