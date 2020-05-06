@@ -15,6 +15,7 @@ class Info(commands.Cog):
         """
         Displays the average webstock latency.
         """
+
         x = self.bot.latency*1000
         ping = round(x)
         embed=discord.Embed(title="PING", color=0x36393e)

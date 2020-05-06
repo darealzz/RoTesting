@@ -27,6 +27,7 @@ class Ranking(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def setrank(self, ctx, user=None, *, rank=None):
+        """b
         def reactionCheck(reaction, user):
             if user == ctx.author and reaction.emoji == tick:
                 return True
