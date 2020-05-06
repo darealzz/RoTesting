@@ -36,4 +36,4 @@ class Errors(commands.Cog):
 
 
 def setup(self.bot):
-    self.bot.add_cog(Errors(self.bot))
+    self.bot.add_cog(Errors(bot))
