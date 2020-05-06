@@ -33,6 +33,9 @@ class Config(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def setup(self, ctx):
+        """
+        Configures your bot with RoSystems.
+        """
         def check(m):
             return m.author == ctx.author
         def reactionCheck(reaction, user):
