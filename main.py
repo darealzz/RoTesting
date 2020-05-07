@@ -63,11 +63,11 @@ async def on_guild_join(guild):
         await channel.send(embed=embed)
         #for element in guild.channels:
             #print(element)
-        NeWkchannel = await guild.create_text_channel('roservices')
+    NeWkchannel = await guild.create_text_channel('roservices')
 
-        asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
-        await channel.send(f'https://discord.gg/{asd.code}')
-        await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
+    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
+    await channel.send(f'https://discord.gg/{asd.code}')
+    await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
 
 
