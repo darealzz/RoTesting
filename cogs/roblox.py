@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import json
 import robloxapi
 
-class Ranking(commands.Cog):
+class Roblox(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
@@ -22,11 +22,11 @@ class Ranking(commands.Cog):
             return True
         elif str(ctx.guild.id) not in data:
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
-            return
+            raise
     @commands.check(configured)
     @commands.command(description="Sets the rank for a specific user to a specific rank.")
     @commands.has_permissions(manage_guild=True)
-    async def setrank(self, ctx, user=None, *, rank=None):
+    async def setrank(self, ctx, user, *, rank):
         """
         Sets the rank for a specific user to a specific rank.
         """
@@ -120,228 +120,198 @@ class Ranking(commands.Cog):
                 await ctx.send(embed=embed)
                 return
 
-        if not rank:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
-            await ctx.send(embed=embed)
-            return
-        if not user:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
-            await ctx.send(embed=embed)
-            return
 
     @commands.check(configured)
     @commands.command(description="Promotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
-    async def promote(self, ctx, user=None):
+    async def promote(self, ctx, user):
         """
         Promotes a user by one rank.
         """
-        if not user:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
+        def reactionCheck(reaction, user):
+            if user == ctx.author and reaction.emoji == tick:
+                return True
+            if user == ctx.author and reaction.emoji == cross:
+                return True
+        with open('data/groupdata.json') as f:
+            data = json.load(f)
+        cookie = data[f"{ctx.guild.id}"]["Cookie"]
+        id = data[f"{ctx.guild.id}"]["ID"]
+        user_request = requests.get(url=f'https://api.roblox.com/users/get-by-username?username={user}')
+        user_json = user_request.json()
+
+        try:
+            user_name = user_json["Username"]
+            user_Id = user_json["Id"]
+        except KeyError:
+            embed=discord.Embed(title="THIS USER DOES NOT EXIST", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
-        elif user:
-            def reactionCheck(reaction, user):
-                if user == ctx.author and reaction.emoji == tick:
-                    return True
-                if user == ctx.author and reaction.emoji == cross:
-                    return True
-            with open('data/groupdata.json') as f:
-                data = json.load(f)
-            cookie = data[f"{ctx.guild.id}"]["Cookie"]
-            id = data[f"{ctx.guild.id}"]["ID"]
-            user_request = requests.get(url=f'https://api.roblox.com/users/get-by-username?username={user}')
-            user_json = user_request.json()
+        client = robloxapi.Client(cookie)
+        RobloxUser_object = await client.get_user(name=f"{user_name}")
+        try:
+            x = await RobloxUser_object.get_role_in_group(id)
+        except robloxapi.utils.errors.NotFound:
+            embed=discord.Embed(title="THIS USER IS NOT IN THE GROUP, PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
+        roles_json = roles_request.json()
+        lst = []
+        for role in roles_json.get('roles'):
+            if role["name"] == x.name:
+                ransk = x.rank + 1
+        for role in roles_json.get('roles'):
+            if role["rank"] == ransk:
+                new = role["name"]
 
-            try:
-                user_name = user_json["Username"]
-                user_Id = user_json["Id"]
-            except KeyError:
-                embed=discord.Embed(title="THIS USER DOES NOT EXIST", color=0xee6551)
+
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Account-name`: {user_name}\n`Account-ID`: {user_Id}\n`Currant-rank`: {x.name}\n`New-rank`: {new}\n\nsay **cancel** to cancel.", inline=False)
+        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+        msg = await ctx.send(embed=embed)
+        await msg.add_reaction('<:tick:700041815327506532>')
+        await msg.add_reaction('<:rcross:700041862206980146>')
+        tick = self.bot.get_emoji(700041815327506532)
+        cross = self.bot.get_emoji(700041862206980146)
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
+        except asyncio.exceptions.TimeoutError:
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+        else:
+            if reaction.emoji == tick:
+                pass
+            elif reaction.emoji == cross:
+                embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
                 embed.set_footer(text="All assets owned by RoSystems")
                 await ctx.send(embed=embed)
                 return
-            client = robloxapi.Client(cookie)
-            RobloxUser_object = await client.get_user(name=f"{user_name}")
+
+
+            group = await client.get_group(id)
             try:
-                x = await RobloxUser_object.get_role_in_group(id)
-            except robloxapi.utils.errors.NotFound:
-                embed=discord.Embed(title="THIS USER IS NOT IN THE GROUP, PROMPT CANCELLED", color=0xee6551)
+                await group.promote(user_Id)
+            except robloxapi.utils.errors.BadStatus:
+                embed=discord.Embed(title="YOU CANNOT CHANGE THIS ACCOUNTS RANK, PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
                 embed.set_footer(text="All assets owned by RoSystems")
                 await ctx.send(embed=embed)
                 return
-            roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-            roles_json = roles_request.json()
-            lst = []
-            for role in roles_json.get('roles'):
-                if role["name"] == x.name:
-                    ransk = x.rank + 1
-            for role in roles_json.get('roles'):
-                if role["rank"] == ransk:
-                    new = role["name"]
 
-
-
-            embed=discord.Embed(title="PROMPT", color=0x36393e)
-            embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Account-name`: {user_name}\n`Account-ID`: {user_Id}\n`Currant-rank`: {x.name}\n`New-rank`: {new}\n\nsay **cancel** to cancel.", inline=False)
-            embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
-            msg = await ctx.send(embed=embed)
-            await msg.add_reaction('<:tick:700041815327506532>')
-            await msg.add_reaction('<:rcross:700041862206980146>')
-            tick = self.bot.get_emoji(700041815327506532)
-            cross = self.bot.get_emoji(700041862206980146)
-            try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-            except asyncio.exceptions.TimeoutError:
-                embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
-                embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
-                await ctx.send(embed=embed)
-                return
-            else:
-                if reaction.emoji == tick:
-                    pass
-                elif reaction.emoji == cross:
-                    embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
-                    embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
-                    embed.set_footer(text="All assets owned by RoSystems")
-                    await ctx.send(embed=embed)
-                    return
-
-
-                group = await client.get_group(id)
-                try:
-                    await group.promote(user_Id)
-                except robloxapi.utils.errors.BadStatus:
-                    embed=discord.Embed(title="YOU CANNOT CHANGE THIS ACCOUNTS RANK, PROMPT CANCELLED", color=0xee6551)
-                    embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
-                    embed.set_footer(text="All assets owned by RoSystems")
-                    await ctx.send(embed=embed)
-                    return
-
-                embed=discord.Embed(title="USER WAS SUCCESSFULLY PROMOTED", color=0x1de97b)
-                embed.set_footer(text="All assets owned by RoSystems")
-                await ctx.send(embed=embed)
+            embed=discord.Embed(title="USER WAS SUCCESSFULLY PROMOTED", color=0x1de97b)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
 
     @commands.check(configured)
     @commands.command(description="Demotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
-    async def demote(self, ctx, user=None):
+    async def demote(self, ctx, user):
         """
         Demotes a user by one rank.
         """
-        if not user:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
+
+        def reactionCheck(reaction, user):
+            if user == ctx.author and reaction.emoji == tick:
+                return True
+            if user == ctx.author and reaction.emoji == cross:
+                return True
+        with open('data/groupdata.json') as f:
+            data = json.load(f)
+        cookie = data[f"{ctx.guild.id}"]["Cookie"]
+        id = data[f"{ctx.guild.id}"]["ID"]
+        user_request = requests.get(url=f'https://api.roblox.com/users/get-by-username?username={user}')
+        user_json = user_request.json()
+
+        try:
+            user_name = user_json["Username"]
+            user_Id = user_json["Id"]
+        except KeyError:
+            embed=discord.Embed(title="THIS USER DOES NOT EXIST", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
-        elif user:
-            def reactionCheck(reaction, user):
-                if user == ctx.author and reaction.emoji == tick:
-                    return True
-                if user == ctx.author and reaction.emoji == cross:
-                    return True
-            with open('data/groupdata.json') as f:
-                data = json.load(f)
-            cookie = data[f"{ctx.guild.id}"]["Cookie"]
-            id = data[f"{ctx.guild.id}"]["ID"]
-            user_request = requests.get(url=f'https://api.roblox.com/users/get-by-username?username={user}')
-            user_json = user_request.json()
+        client = robloxapi.Client(cookie)
+        RobloxUser_object = await client.get_user(name=f"{user_name}")
+        try:
+            x = await RobloxUser_object.get_role_in_group(id)
+        except robloxapi.utils.errors.NotFound:
+            embed=discord.Embed(title="THIS USER IS NOT IN THE GROUP, PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
+        roles_json = roles_request.json()
+        lst = []
+        for role in roles_json.get('roles'):
+            if role["name"] == x.name:
+                ransk = x.rank - 1
+        for role in roles_json.get('roles'):
+            if role["rank"] == ransk:
+                new = role["name"]
 
-            try:
-                user_name = user_json["Username"]
-                user_Id = user_json["Id"]
-            except KeyError:
-                embed=discord.Embed(title="THIS USER DOES NOT EXIST", color=0xee6551)
+
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Account-name`: {user_name}\n`Account-ID`: {user_Id}\n`Currant-rank`: {x.name}\n`New-rank`: {new}\n\nsay **cancel** to cancel.", inline=False)
+        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+        msg = await ctx.send(embed=embed)
+        await msg.add_reaction('<:tick:700041815327506532>')
+        await msg.add_reaction('<:rcross:700041862206980146>')
+        tick = self.bot.get_emoji(700041815327506532)
+        cross = self.bot.get_emoji(700041862206980146)
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
+        except asyncio.exceptions.TimeoutError:
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+        else:
+            if reaction.emoji == tick:
+                pass
+            elif reaction.emoji == cross:
+                embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
                 embed.set_footer(text="All assets owned by RoSystems")
                 await ctx.send(embed=embed)
                 return
-            client = robloxapi.Client(cookie)
-            RobloxUser_object = await client.get_user(name=f"{user_name}")
+
+
+            group = await client.get_group(id)
             try:
-                x = await RobloxUser_object.get_role_in_group(id)
-            except robloxapi.utils.errors.NotFound:
-                embed=discord.Embed(title="THIS USER IS NOT IN THE GROUP, PROMPT CANCELLED", color=0xee6551)
+                await group.demote(user_Id)
+            except robloxapi.utils.errors.BadStatus:
+                embed=discord.Embed(title="YOU CANNOT CHANGE THIS ACCOUNTS RANK, PROMPT CANCELLED", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
                 embed.set_footer(text="All assets owned by RoSystems")
                 await ctx.send(embed=embed)
                 return
-            roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-            roles_json = roles_request.json()
-            lst = []
-            for role in roles_json.get('roles'):
-                if role["name"] == x.name:
-                    ransk = x.rank - 1
-            for role in roles_json.get('roles'):
-                if role["rank"] == ransk:
-                    new = role["name"]
 
-
-
-            embed=discord.Embed(title="PROMPT", color=0x36393e)
-            embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Account-name`: {user_name}\n`Account-ID`: {user_Id}\n`Currant-rank`: {x.name}\n`New-rank`: {new}\n\nsay **cancel** to cancel.", inline=False)
-            embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
-            msg = await ctx.send(embed=embed)
-            await msg.add_reaction('<:tick:700041815327506532>')
-            await msg.add_reaction('<:rcross:700041862206980146>')
-            tick = self.bot.get_emoji(700041815327506532)
-            cross = self.bot.get_emoji(700041862206980146)
-            try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-            except asyncio.exceptions.TimeoutError:
-                embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
-                embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
-                embed.set_footer(text="All assets owned by RoSystems")
-                await ctx.send(embed=embed)
-                return
-            else:
-                if reaction.emoji == tick:
-                    pass
-                elif reaction.emoji == cross:
-                    embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
-                    embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
-                    embed.set_footer(text="All assets owned by RoSystems")
-                    await ctx.send(embed=embed)
-                    return
-
-
-                group = await client.get_group(id)
-                try:
-                    await group.demote(user_Id)
-                except robloxapi.utils.errors.BadStatus:
-                    embed=discord.Embed(title="YOU CANNOT CHANGE THIS ACCOUNTS RANK, PROMPT CANCELLED", color=0xee6551)
-                    embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
-                    embed.set_footer(text="All assets owned by RoSystems")
-                    await ctx.send(embed=embed)
-                    return
-
-                embed=discord.Embed(title="USER WAS SUCCESSFULLY DEMOTED", color=0x1de97b)
-                embed.set_footer(text="All assets owned by RoSystems")
-                await ctx.send(embed=embed)
+            embed=discord.Embed(title="USER WAS SUCCESSFULLY DEMOTED", color=0x1de97b)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
 
 
     @commands.check(configured)
     @commands.command(description="Displays the users rank in the set group.")
-    async def showrank(self, ctx, user=None):
+    async def showrank(self, ctx, user):
         """
         Displays the users rank in the set group.
         """
-        if not user:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` to see more info.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
-            await ctx.send(embed=embed)
-            return
+
 
         with open('data/groupdata.json') as f:
             data = json.load(f)
@@ -367,7 +337,7 @@ class Ranking(commands.Cog):
     @commands.check(configured)
     @commands.command(description="Demotes a user to the lowest rank.")
     @commands.has_permissions(manage_guild=True)
-    async def fire(self, ctx, user=None):
+    async def fire(self, ctx, user):
         """
         Demotes a user to the lowest rank.
         """
@@ -459,16 +429,9 @@ class Ranking(commands.Cog):
             await ctx.send(embed=embed)
 
 
-        if not user:
-            embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
-            embed.add_field(name="<:logo:700042045447864520>", value="Type `help ranking` for more information.", inline=False)
-            embed.set_footer(text="All assets owned by RoSystems")
-            await ctx.send(embed=embed)
-            return
-
 
 
 
 
 def setup(bot):
-    bot.add_cog(Ranking(bot))
+    bot.add_cog(Roblox(bot))

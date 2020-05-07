@@ -6,7 +6,7 @@ import os
 import random
 import jishaku
 
-bot = commands.Bot(command_prefix='$', case_insensitive=True)
+bot = commands.Bot(command_prefix='-', case_insensitive=True)
 #bot.remove_command("help")
 bot.load_extension('jishaku')
 bot.remove_command("help")
@@ -140,7 +140,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-# with open('data/token.json', 'r') as f:
-#     data = json.load(f)
-# bot.run(f'{data["TOKEN"]}')
-bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
+with open('data/token.json', 'r') as f:
+    data = json.load(f)
+bot.run(f'{data["TOKEN"]}')
+# bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
