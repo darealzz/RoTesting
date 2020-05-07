@@ -19,6 +19,8 @@ class Errors(commands.Cog):
             return
         if isinstance(error, commands.BadArgument):
             await ctx.send("<:rcross:700041862206980146> You did not give valid peramiters for that command!.")
+        if isinstance(error, commands.NotOwner):
+            await ctx.send("<:rcross:700041862206980146> You must own this bot to use that command!.")
         else:
             Guild = self.bot.get_guild(699991602126389248)
             channel = Guild.get_channel(706942712242372679)

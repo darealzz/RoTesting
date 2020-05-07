@@ -6,7 +6,7 @@ import os
 import random
 import jishaku
 
-bot = commands.Bot(command_prefix='$', case_insensitive=True)
+bot = commands.Bot(command_prefix='-', case_insensitive=True)
 #bot.remove_command("help")
 bot.load_extension('jishaku')
 bot.remove_command("help")
@@ -61,7 +61,8 @@ async def on_guild_join(guild):
             #print(element)
         NeWkchannel = await guild.create_text_channel('roservices')
 
-
+        asd = NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
+        await channel.send(asd)
         await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
 
@@ -135,6 +136,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-with open('data/token.json', 'r') as f:
-    data = json.load(f)
-bot.run(f'{data["TOKEN"]}')
+# with open('data/token.json', 'r') as f:
+#     data = json.load(f)
+# bot.run(f'{data["TOKEN"]}')
+bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')

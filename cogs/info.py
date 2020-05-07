@@ -22,7 +22,13 @@ class Info(commands.Cog):
         embed.add_field(name=f"Average websocket latency", value=f"`Pong | {ping} ms`", inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def invite(self, ctx):
 
+        embed=discord.Embed(title="Join our support server: http://support.rosystems.xyz/\nInvite RoSystems: http://invite.rosystems.xyz/", color=0x36393e)
+        embed.set_author(name="RoSystems", icon_url="https://cdn.discordapp.com/attachments/700349605786943569/707905673777905724/transparent.png")
+
+        await ctx.send(embed=embed)
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
     async def help(self, ctx):
