@@ -33,7 +33,7 @@ class Info(commands.Cog):
     @commands.group(invoke_without_command=True, case_insensitive=True)
     async def help(self, ctx):
         embed=discord.Embed(title="HELP PANNEL", description=f"Your prefix: `$` || Mandatory :`<>` | Optional: `[]`\n\nType `$help [CategoryName]` to view more category information.\n", color=0x36393e)
-        embed.add_field(name="__Info Category:__", value="`help`  `ping`", inline=False)
+        embed.add_field(name="__Info Category:__", value="`help`  `ping`  `invite`", inline=False)
         embed.add_field(name="__Config Category:__", value="`setup`", inline=False)
         embed.add_field(name="__Ranking Category:__", value="`setrank`  `promote`  `demote`  `showrank`  `fire`", inline=False)
         embed.add_field(name="__Utility Category:__", value="`Ban`  `Unban`  `Mute`  `Unmute`  `kick`  `purge`", inline=False)
@@ -45,6 +45,7 @@ class Info(commands.Cog):
         embed=discord.Embed(title="HELP PANNEL", description=f"Your prefix: `$` || Mandatory :`<>` | Optional: `[]`\n", color=0x36393e)
         embed.add_field(name="__Info Category:__", value="""`help [Category]` - Shows the help command.
           `ping` - Shows the average webstock latency.
+          `invite` - Sends relevant links to invite the bot.
           """, inline=False)
         await ctx.send(embed=embed)
 

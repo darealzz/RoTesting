@@ -35,6 +35,9 @@ async def change_status():
 @tasks.loop(seconds=40)
 async def change_statuss():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
+@tasks.loop(seconds=60)
+async def change_statusss():
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help|$setup|$invite"))
 
 @bot.event
 async def on_guild_join(guild):
@@ -136,7 +139,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-# with open('data/token.json', 'r') as f:
-#     data = json.load(f)
-# bot.run(f'{data["TOKEN"]}')
-bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
+with open('data/token.json', 'r') as f:
+    data = json.load(f)
+bot.run(f'{data["TOKEN"]}')
+# bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
