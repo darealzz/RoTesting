@@ -63,11 +63,11 @@ async def on_guild_join(guild):
         await channel.send(embed=embed)
         #for element in guild.channels:
             #print(element)
-        NeWkchannel = await guild.create_text_channel('roservices')
+    NeWkchannel = await guild.create_text_channel('roservices')
 
-        asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
-        await channel.send(f'https://discord.gg/{asd.code}')
-        await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
+    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
+    await channel.send(f'https://discord.gg/{asd.code}')
+    await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
 
 
@@ -140,7 +140,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-with open('data/token.json', 'r') as f:
-    data = json.load(f)
-bot.run(f'{data["TOKEN"]}')
-# bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
+# with open('data/token.json', 'r') as f:
+#     data = json.load(f)
+# bot.run(f'{data["TOKEN"]}')
+bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
