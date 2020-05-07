@@ -6,7 +6,7 @@ import os
 import random
 import jishaku
 
-bot = commands.Bot(command_prefix='-', case_insensitive=True)
+bot = commands.Bot(command_prefix='$', case_insensitive=True)
 #bot.remove_command("help")
 bot.load_extension('jishaku')
 bot.remove_command("help")
