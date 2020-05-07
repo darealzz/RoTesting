@@ -28,6 +28,7 @@ async def on_ready():
     print("ready")
     change_status.start()
     change_statuss.start()
+    change_statusss.start()
 
 @tasks.loop(seconds=20)
 async def change_status():
