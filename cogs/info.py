@@ -35,7 +35,7 @@ class Info(commands.Cog):
         embed=discord.Embed(title="HELP PANNEL", description=f"Your prefix: `$` || Mandatory :`<>` | Optional: `[]`\n\nType `$help [CategoryName]` to view more category information.\n", color=0x36393e)
         embed.add_field(name="__Info Category:__", value="`help`  `ping`  `invite`", inline=False)
         embed.add_field(name="__Config Category:__", value="`setup`", inline=False)
-        embed.add_field(name="__Roblox Category:__", value="`setrank`  `promote`  `demote`  `showrank`  `fire`", inline=False)
+        embed.add_field(name="__Roblox Category:__", value="`setrank`  `promote`  `demote`  `showrank`  `fire`  `shout`", inline=False)
         embed.add_field(name="__Utility Category:__", value="`Ban`  `Unban`  `Mute`  `Unmute`  `kick`  `purge`", inline=False)
         embed.add_field(name="__Owner Only:__", value="`load <cog>`  `unload <cog>`  `r`  `reload <cog>`", inline=False)
         await ctx.send(embed=embed)
@@ -64,6 +64,7 @@ class Info(commands.Cog):
         `demote <roblox-user>` - Demotes a user by one rank.
         `showrank <roblox-user>` - Shows the rank for a specific user.
         `fire <roblox-user>` - Demotes a user to the lowest rank.
+        `shout <message>` - Shouts message to configured roblox group.
           """, inline=False)
         await ctx.send(embed=embed)
 
