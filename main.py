@@ -5,8 +5,10 @@ import json
 import os
 import random
 import jishaku
+import discord
 
-bot = commands.Bot(command_prefix='$', case_insensitive=True)
+
+bot = commands.Bot(command_prefix='-', case_insensitive=True)
 #bot.remove_command("help")
 bot.load_extension('jishaku')
 bot.remove_command("help")
@@ -26,19 +28,20 @@ for filename in os.listdir('./cogs'):
 @bot.event
 async def on_ready():
     print("ready")
+
     change_status.start()
     change_statuss.start()
     change_statusss.start()
 
 @tasks.loop(seconds=20)
 async def change_status():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
+    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
 @tasks.loop(seconds=40)
 async def change_statuss():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
+    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
 @tasks.loop(seconds=60)
 async def change_statusss():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
+    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
 
 @bot.event
 async def on_guild_join(guild):
@@ -140,7 +143,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-with open('data/token.json', 'r') as f:
-    data = json.load(f)
-bot.run(f'{data["TOKEN"]}')
-# bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
+# with open('data/token.json', 'r') as f:
+#     data = json.load(f)
+# bot.run(f'{data["TOKEN"]}')
+bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')

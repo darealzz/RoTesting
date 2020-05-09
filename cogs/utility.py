@@ -43,7 +43,7 @@ class utility(commands.Cog):
         cross = self.bot.get_emoji(700041862206980146)
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-        except asyncio.exceptions.TimeoutError:
+        except asyncio.TimeoutError:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `kick` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
@@ -64,8 +64,10 @@ class utility(commands.Cog):
             await member.send(embed=embed)
         except discord.Forbidden:
             pass
-
-        await ctx.guild.kick(member, reason=reason)
+        try:
+            await ctx.guild.kick(member, reason=reason)
+        except commands.MissingPermissions:
+            await ctx.send("<:rcross:700041862206980146> You/I don't have permissions to run this command!.")
 
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
@@ -123,9 +125,10 @@ class utility(commands.Cog):
             await member.send(embed=embed)
         except discord.Forbidden:
             pass
-
-        await ctx.guild.ban(member, reason=reason)
-
+        try:
+            await ctx.guild.ban(member, reason=reason)
+        except commands.MissingPermissions:
+            await ctx.send("<:rcross:700041862206980146> You/I don't have permissions to run this command!.")
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
 
@@ -175,9 +178,10 @@ class utility(commands.Cog):
                 embed.set_footer(text="All assets owned by RoSystems")
                 await ctx.send(embed=embed)
                 return
-
-        await ctx.guild.unban(member)
-
+        try:
+            await ctx.guild.unban(member)
+        except commands.MissingPermissions:
+            await ctx.send("<:rcross:700041862206980146> You/I don't have permissions to run this command!.")
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
 

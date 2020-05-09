@@ -428,6 +428,62 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
+    @commands.check(configured)
+    @commands.command(description="Demotes a user to the lowest rank.")
+    @commands.has_permissions(manage_guild=True)
+    async def shout(self, ctx, *, message):
+
+        def reactionCheck(reaction, user):
+            if user == ctx.author and reaction.emoji == tick:
+                return True
+            if user == ctx.author and reaction.emoji == cross:
+                return True
+
+        with open('data/groupdata.json') as f:
+            data = json.load(f)
+
+        cookie = data[f"{ctx.guild.id}"]["Cookie"]
+        id = data[f"{ctx.guild.id}"]["ID"]
+        client = robloxapi.Client(cookie)
+        group = await client.get_group(id)
+
+        embed=discord.Embed(title="PROMPT", color=0x36393e)
+        embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Message`: {message}", inline=False)
+        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+        msg = await ctx.send(embed=embed)
+        await msg.add_reaction('<:tick:700041815327506532>')
+        await msg.add_reaction('<:rcross:700041862206980146>')
+        tick = self.bot.get_emoji(700041815327506532)
+        cross = self.bot.get_emoji(700041862206980146)
+
+        try:
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
+        except asyncio.exceptions.TimeoutError:
+            embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+        else:
+            if reaction.emoji == tick:
+                pass
+            elif reaction.emoji == cross:
+                embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoSystems")
+                await ctx.send(embed=embed)
+                return
+
+        try:
+            members = await group.post_shout(message)
+        except:
+            embed=discord.Embed(title="I DON'T HAVE PERMISSIONS TO DO THIS/MESSAGE TO LONG, PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+
+
 
 
 

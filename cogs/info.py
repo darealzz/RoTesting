@@ -80,7 +80,9 @@ class Info(commands.Cog):
         await ctx.send(embed=embed)
 
 
-
+    @commands.command()
+    async def test(self, ctx):
+        await self.bot.change_presence(status=discord.Status.dnd)
 
 
 
