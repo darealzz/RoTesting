@@ -37,7 +37,7 @@ class Errors(commands.Cog):
             embed.add_field(name="Command:", value=f"`{ctx.message.content}`", inline=False)
             embed.add_field(name="Error:", value=f"`{error}`", inline=False)
             embed.set_footer(text="All assets owned by RoServices")
-            await channel.send(embed=embed)
+            print(error)
 
 
 def setup(bot):
