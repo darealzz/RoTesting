@@ -17,6 +17,8 @@ class Errors(commands.Cog):
             return
         if isinstance(error, commands.CommandNotFound):
             return
+        if isinstance(error, commands.MissingRequiredArgument):
+            await ctx.send("<:rcross:700041862206980146> You did not give all peramiters for that command!.")
         if isinstance(error, commands.BadArgument):
             await ctx.send("<:rcross:700041862206980146> You did not give valid peramiters for that command!.")
         if isinstance(error, commands.NotOwner):
