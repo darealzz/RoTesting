@@ -88,7 +88,7 @@ class Roblox(commands.Cog):
             cross = self.bot.get_emoji(700041862206980146)
             try:
                 reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-            except asyncio.exceptions.TimeoutError:
+            except:
                 embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
                 embed.add_field(name="<:logo:700042045447864520>", value="Type `setrank` to restart prompt.", inline=False)
                 embed.set_footer(text="All assets owned by RoSystems")
@@ -181,7 +181,7 @@ class Roblox(commands.Cog):
         cross = self.bot.get_emoji(700041862206980146)
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `promote` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
@@ -273,7 +273,7 @@ class Roblox(commands.Cog):
         cross = self.bot.get_emoji(700041862206980146)
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `demote` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
@@ -397,7 +397,7 @@ class Roblox(commands.Cog):
         cross = self.bot.get_emoji(700041862206980146)
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `fire` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
@@ -458,7 +458,7 @@ class Roblox(commands.Cog):
 
         try:
             reaction, user = await self.bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoSystems")
