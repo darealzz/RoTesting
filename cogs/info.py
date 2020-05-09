@@ -28,7 +28,8 @@ class Info(commands.Cog):
         embed=discord.Embed(title="Join our support server: http://support.rosystems.xyz/\nInvite RoSystems: http://invite.rosystems.xyz/", color=0x36393e)
         embed.set_author(name="RoSystems", icon_url="https://cdn.discordapp.com/attachments/700349605786943569/707905673777905724/transparent.png")
 
-        await ctx.send(embed=embed)
+        await ctx.author.send(embed=embed)
+        await ctx.send('Check your DMs!')
 
     @commands.group(invoke_without_command=True, case_insensitive=True)
     async def help(self, ctx):
