@@ -447,10 +447,10 @@ class Roblox(commands.Cog):
         client = robloxapi.Client(cookie)
         group = await client.get_group(id)
         try:
-        embed=discord.Embed(title="PROMPT", color=0x36393e)
-        embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Message`: {message}", inline=False)
-        embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
-        msg = await ctx.send(embed=embed)
+            embed=discord.Embed(title="PROMPT", color=0x36393e)
+            embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Message`: {message}", inline=False)
+            embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+            msg = await ctx.send(embed=embed)
         except:
             embed=discord.Embed(title="I DON'T HAVE PERMISSIONS TO DO THIS/MESSAGE TO LONG, PROMPT CANCELLED", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
