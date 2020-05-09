@@ -483,7 +483,9 @@ class Roblox(commands.Cog):
             await ctx.send(embed=embed)
             return
 
-
+        embed=discord.Embed(title="SHOUT WAS POSTED SUCCESFULLY", color=0x1de97b)
+        embed.set_footer(text="All assets owned by RoSystems")
+        await ctx.send(embed=embed)
 
 
 
