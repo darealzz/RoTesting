@@ -446,11 +446,17 @@ class Roblox(commands.Cog):
         id = data[f"{ctx.guild.id}"]["ID"]
         client = robloxapi.Client(cookie)
         group = await client.get_group(id)
-
+        try:
         embed=discord.Embed(title="PROMPT", color=0x36393e)
         embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Message`: {message}", inline=False)
         embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
         msg = await ctx.send(embed=embed)
+        except:
+            embed=discord.Embed(title="I DON'T HAVE PERMISSIONS TO DO THIS/MESSAGE TO LONG, PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `shout` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
         await msg.add_reaction('<:tick:700041815327506532>')
         await msg.add_reaction('<:rcross:700041862206980146>')
         tick = self.bot.get_emoji(700041815327506532)
