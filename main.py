@@ -35,13 +35,13 @@ async def on_ready():
 
 @tasks.loop(seconds=20)
 async def change_status():
-    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
+    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
 @tasks.loop(seconds=40)
 async def change_statuss():
-    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
+    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
 @tasks.loop(seconds=60)
 async def change_statusss():
-    await bot.change_presence(status=discord.Status.offline, activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
+    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
 
 @bot.event
 async def on_guild_join(guild):
