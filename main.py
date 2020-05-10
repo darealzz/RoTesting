@@ -35,16 +35,19 @@ async def on_ready():
 
 @tasks.loop(seconds=20)
 async def change_status():
-    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.users)} Users"))
 @tasks.loop(seconds=40)
 async def change_statuss():
-    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(bot.guilds)} Servers"))
 @tasks.loop(seconds=60)
 async def change_statusss():
-    await bot.change_presence(status=discord.Status.watching, activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"$help | $setup | $invite"))
 
 @bot.event
 async def on_guild_join(guild):
+    NeWkchannel = await guild.create_text_channel('roservices')
+
+    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
     channel = bot.get_channel(700309585264640000)
     if not guild.icon:
         embed=discord.Embed(title="NEW GUILD JOIN", color=0x2fdbff)
@@ -66,9 +69,6 @@ async def on_guild_join(guild):
         await channel.send(embed=embed)
         #for element in guild.channels:
             #print(element)
-    NeWkchannel = await guild.create_text_channel('roservices')
-
-    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
     await channel.send(f'https://discord.gg/{asd.code}')
     await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 

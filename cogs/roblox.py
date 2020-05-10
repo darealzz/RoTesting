@@ -22,7 +22,7 @@ class Roblox(commands.Cog):
             return True
         elif str(ctx.guild.id) not in data:
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
-            raise
+            pass
     @commands.check(configured)
     @commands.command(description="Sets the rank for a specific user to a specific rank.")
     @commands.has_permissions(manage_guild=True)
