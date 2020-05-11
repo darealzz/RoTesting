@@ -21,7 +21,7 @@ class Roblox(commands.Cog):
         if str(ctx.guild.id) in data:
             try:
                 cookie = data[f"{ctx.guild.id}"]["Cookie"]
-                client = robloxapi.client(cookie)
+                client = robloxapi.Client(cookie)
                 group = await client.get_group(id)
                 await client.get_self()
             except robloxapi.utils.errors.NotAuthenticated:
