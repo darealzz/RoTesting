@@ -77,11 +77,11 @@ class UserAuth(commands.Cog):
         word_four = random.choice(words)
         word_five = random.choice(words)
 
-        await ctx.send('')
+        await ctx.send('https://cdn.discordapp.com/attachments/692517225558442065/696777741919584266/verify_help.png')
         embed = discord.Embed(title="PROMPT" ,description=f"Hello, {roblox_name.content}! To confirm that you own this Roblox account, please go here: https://www.roblox.com/my/account and put this code on your **profile or status**:", color=0x36393e)
         await ctx.send(embed=embed)
         embed = discord.Embed(title="PROMPT", color=0x36393e)
-        embed.add_field(name="<:logo:700042045447864520>", value=f"https://cdn.discordapp.com/attachments/692517225558442065/696777741919584266/verify_help.png\n```{word_one} {word_two} {word_three} {word_four} {word_five}```\n\n say **done** when done.\nsay **cancel** to cancel.")
+        embed.add_field(name="<:logo:700042045447864520>", value=f"Hello, {roblox_name.content}! To confirm that you own this Roblox account, please go here: https://www.roblox.com/my/account and put this code on your **profile or status**:\n```{word_one} {word_two} {word_three} {word_four} {word_five}```\n\nsay **done** when done.\nsay **cancel** to cancel.")
         embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
         await ctx.send(embed=embed)
         try:
