@@ -25,7 +25,7 @@ class Roblox(commands.Cog):
                 group = await client.get_group(id)
                 await client.get_self()
             except robloxapi.utils.errors.NotAuthenticated:
-                await ctx.send('<:rcross:700041862206980146> Cookie was not valid, do `setup` and pass a valid token.')
+                await ctx.send('<:rcross:700041862206980146> Cookie was not valid, use `setup` and pass a valid token.')
                 raise discord.ext.commands.CommandNotFound
             else:
                 return True
