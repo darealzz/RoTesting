@@ -131,7 +131,7 @@ class utility(commands.Cog):
             await ctx.send("<:rcross:700041862206980146> You/I don't have permissions to run this command!.")
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
-    @comands.max_concurrency(1, per=<BucketType.user>)
+    @comands.max_concurrency(1, per=BucketType.user)
     @commands.has_permissions(ban_members=True)
     @commands.command(description="Unbans a user from the discord server.")
     async def unban(self, ctx, id=None):
