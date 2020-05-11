@@ -5,6 +5,8 @@ import json
 import os
 import random
 import jishaku
+import discord
+
 
 bot = commands.Bot(command_prefix='$', case_insensitive=True)
 #bot.remove_command("help")
@@ -26,6 +28,7 @@ for filename in os.listdir('./cogs'):
 @bot.event
 async def on_ready():
     print("ready")
+
     change_status.start()
     change_statuss.start()
     change_statusss.start()
@@ -42,6 +45,9 @@ async def change_statusss():
 
 @bot.event
 async def on_guild_join(guild):
+    NeWkchannel = await guild.create_text_channel('roservices')
+
+    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
     channel = bot.get_channel(700309585264640000)
     if not guild.icon:
         embed=discord.Embed(title="NEW GUILD JOIN", color=0x2fdbff)
@@ -63,9 +69,12 @@ async def on_guild_join(guild):
         await channel.send(embed=embed)
         #for element in guild.channels:
             #print(element)
+<<<<<<< HEAD
     NeWkchannel = await guild.create_text_channel('roservices')
 
     asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
+=======
+>>>>>>> 7daefcc5ae61b325d8f24ea64f0a4def2604c9a0
     await channel.send(f'https://discord.gg/{asd.code}')
     await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
