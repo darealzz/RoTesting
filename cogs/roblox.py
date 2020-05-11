@@ -34,8 +34,8 @@ class Roblox(commands.Cog):
             raise discord.ext.commands.CommandNotFound
 
 
-    @commands.has_permissions(manage_guild=True)
     @commands.check(configured)
+    @commands.has_permissions(manage_guild=True)
     @commands.command()
     async def setrank(self, ctx, user, *, rank):
         """
