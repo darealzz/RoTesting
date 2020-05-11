@@ -19,11 +19,16 @@ class Roblox(commands.Cog):
         with open('data/groupdata.json', 'r') as f:
             data = json.load(f)
         if str(ctx.guild.id) in data:
-            cookie = data[f"{ctx.guild.id}"]["Cookie"]
-            group = await client.get_group(id)
-            client = robloxapi.client(cookie)
-            await client.get_self()
-            return True
+            try:
+                cookie = data[f"{ctx.guild.id}"]["Cookie"]
+                client = robloxapi.client(cookie)
+                group = await client.get_group(id)
+                await client.get_self()
+            except robloxapi.utils.errors.NotAuthenticated:
+                await ctx.send('<:rcross:700041862206980146> Cookie was not valid, do `setup` and pass a valid token.')
+                raise discord.ext.commands.CommandNotFound
+            else:
+                return True
         elif str(ctx.guild.id) not in data:
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
             raise discord.ext.commands.CommandNotFound
