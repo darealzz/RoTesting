@@ -19,13 +19,19 @@ class Roblox(commands.Cog):
         with open('data/groupdata.json', 'r') as f:
             data = json.load(f)
         if str(ctx.guild.id) in data:
+            cookie = data[f"{ctx.guild.id}"]["Cookie"]
+            group = await client.get_group(id)
+            client = robloxapi.client(cookie)
+            await client.get_self()
             return True
         elif str(ctx.guild.id) not in data:
             await ctx.send('<:rcross:700041862206980146> You must configure your server with RoSystems before using this command, use `setup`.')
             raise discord.ext.commands.CommandNotFound
-    @commands.check(configured)
-    @commands.command(description="Sets the rank for a specific user to a specific rank.")
+
+
     @commands.has_permissions(manage_guild=True)
+    @commands.check(configured)
+    @commands.command()
     async def setrank(self, ctx, user, *, rank):
         """
         Sets the rank for a specific user to a specific rank.
@@ -121,9 +127,9 @@ class Roblox(commands.Cog):
                 return
 
 
-    @commands.check(configured)
-    @commands.command(description="Promotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
+    @commands.check(configured)
+    @commands.command()
     async def promote(self, ctx, user):
         """
         Promotes a user by one rank.
@@ -212,9 +218,9 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
-    @commands.check(configured)
-    @commands.command(description="Demotes a user by one rank.")
     @commands.has_permissions(manage_guild=True)
+    @commands.check(configured)
+    @commands.command()
     async def demote(self, ctx, user):
         """
         Demotes a user by one rank.
@@ -306,7 +312,7 @@ class Roblox(commands.Cog):
 
 
     @commands.check(configured)
-    @commands.command(description="Displays the users rank in the set group.")
+    @commands.command()
     async def showrank(self, ctx, user):
         """
         Displays the users rank in the set group.
@@ -334,9 +340,9 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             msg = await ctx.send(embed=embed)
 
-    @commands.check(configured)
-    @commands.command(description="Demotes a user to the lowest rank.")
     @commands.has_permissions(manage_guild=True)
+    @commands.check(configured)
+    @commands.command()
     async def fire(self, ctx, user):
         """
         Demotes a user to the lowest rank.
@@ -428,9 +434,9 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
-    @commands.check(configured)
-    @commands.command(description="Demotes a user to the lowest rank.")
     @commands.has_permissions(manage_guild=True)
+    @commands.check(configured)
+    @commands.command()
     async def shout(self, ctx, *, message):
 
         def reactionCheck(reaction, user):

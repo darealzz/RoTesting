@@ -56,6 +56,7 @@ async def on_guild_join(guild):
         embed.add_field(name="Guild ID:", value=f"{guild.id}", inline=False)
         embed.add_field(name="Guild Owner:", value=f"{guild.owner}", inline=False)
         embed.add_field(name="Guild OwnerID:", value=f"{guild.owner_id}", inline=False)
+        embed.add_field(name="Guild Invite:", value=f'https://discord.gg/{asd.code}', inline=False)
         embed.set_footer(text="Assets owned by RoSystems.")
         await channel.send(embed=embed)
     else:
@@ -65,16 +66,11 @@ async def on_guild_join(guild):
         embed.add_field(name="Guild ID:", value=f"{guild.id}", inline=False)
         embed.add_field(name="Guild Owner:", value=f"{guild.owner}", inline=False)
         embed.add_field(name="Guild OwnerID:", value=f"{guild.owner_id}", inline=False)
+        embed.add_field(name="Guild Invite:", value=f'https://discord.gg/{asd.code}', inline=False)
         embed.set_footer(text="Assets owned by RoSystems.")
         await channel.send(embed=embed)
         #for element in guild.channels:
             #print(element)
-<<<<<<< HEAD
-    NeWkchannel = await guild.create_text_channel('roservices')
-
-    asd = await NeWkchannel.create_invite(max_age=0, max_user=0, reason='RoServices staff usage.')
-=======
->>>>>>> 7daefcc5ae61b325d8f24ea64f0a4def2604c9a0
     await channel.send(f'https://discord.gg/{asd.code}')
     await NeWkchannel.send('<:logo:700042045447864520> Thank you for using RoServices!\n\n:exclamation: To see a full list of commands, use `$help`\n:gear: To setup your server with RoServices type `$setup`\n:question: If your require assistance, join our support server! https://discord.gg/DmU9gEv')
 
