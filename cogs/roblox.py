@@ -132,8 +132,8 @@ class Roblox(commands.Cog):
                 return
 
 
-    @commands.has_permissions(manage_guild=True)
     @commands.check(configured)
+    @commands.has_permissions(manage_guild=True)
     @commands.command()
     async def promote(self, ctx, user):
         """
@@ -223,8 +223,8 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
-    @commands.has_permissions(manage_guild=True)
     @commands.check(configured)
+    @commands.has_permissions(manage_guild=True)
     @commands.command()
     async def demote(self, ctx, user):
         """
@@ -345,8 +345,8 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             msg = await ctx.send(embed=embed)
 
-    @commands.has_permissions(manage_guild=True)
     @commands.check(configured)
+    @commands.has_permissions(manage_guild=True)
     @commands.command()
     async def fire(self, ctx, user):
         """
@@ -439,8 +439,8 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
-    @commands.has_permissions(manage_guild=True)
     @commands.check(configured)
+    @commands.has_permissions(manage_guild=True)
     @commands.command()
     async def shout(self, ctx, *, message):
 
