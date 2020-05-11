@@ -43,7 +43,7 @@ class UserAuth(commands.Cog):
 
         try:
             roblox_name = await self.bot.wait_for('message', check=check, timeout=200)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
@@ -87,7 +87,7 @@ class UserAuth(commands.Cog):
         try:
             global wait_for_done
             wait_for_done = await self.bot.wait_for('message', check=check, timeout=200)
-        except asyncio.exceptions.TimeoutError:
+        except:
             embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `verify` to restart prompt.", inline=False)
             embed.set_footer(text="All assets owned by RoServices.")
