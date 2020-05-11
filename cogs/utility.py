@@ -62,7 +62,7 @@ class utility(commands.Cog):
             embed=discord.Embed(title=f"KICKED FROM {ctx.guild.name}", color=0x45f182)
             embed.add_field(name="<:logo:700042045447864520>", value=f"Action Data:\n`Kicked-by`: {ctx.author}\n`Kicked-for`: {reason}")
             await member.send(embed=embed)
-        except discord.Forbidden:
+        except:
             pass
         try:
             await ctx.guild.kick(member, reason=reason)
@@ -123,7 +123,7 @@ class utility(commands.Cog):
             embed=discord.Embed(title=f"BANNED FROM {ctx.guild.name}", color=0x45f182)
             embed.add_field(name="<:logo:700042045447864520>", value=f"Action Data:\n`Banned-by`: {ctx.author}\n`Banned-for`: {reason}")
             await member.send(embed=embed)
-        except discord.Forbidden:
+        except:
             pass
         try:
             await ctx.guild.ban(member, reason=reason)
@@ -131,10 +131,10 @@ class utility(commands.Cog):
             await ctx.send("<:rcross:700041862206980146> You/I don't have permissions to run this command!.")
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
-
+    @comands.max_concurrency(number, per=<BucketType.default: 0>, *, wait=False)
     @commands.has_permissions(ban_members=True)
     @commands.command(description="Unbans a user from the discord server.")
-    async def unban(self, ctx, id: int=None):
+    async def unban(self, ctx, id=None):
         """
         Unbans a user from the discord server.
         """
@@ -143,7 +143,14 @@ class utility(commands.Cog):
                 return True
             if user == ctx.author and reaction.emoji == cross:
                 return True
-
+        try:
+            id = int(id)
+        except:
+            embed=discord.Embed(title="PLEASE PROVIDE A VALID ID", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `help utility` for more information.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
         if not id:
             embed=discord.Embed(title="PLEASE PROVIDE ALL COMMAND AURGUMENTS", color=0xee6551)
             embed.add_field(name="<:logo:700042045447864520>", value="Type `help utility` for more information.", inline=False)
@@ -151,8 +158,14 @@ class utility(commands.Cog):
             await ctx.send(embed=embed)
             return
 
-        member = await self.bot.fetch_user(id)
-
+        try:
+            member = await self.bot.fetch_user(id)
+        except:
+            embed=discord.Embed(title="USER NOT FOUND, PROMPT TERMINATED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `unban` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
         embed=discord.Embed(title="PROMPT", color=0x36393e)
         embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`User-name`: {member}\n`User-ID`: {member.id}\n`Action`: UnBan", inline=False)
         embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
