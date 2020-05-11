@@ -11,6 +11,7 @@ class utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(kick_members=True)
     @commands.command(description="Kicks a user from the discord server.")
     async def kick(self, ctx, member:discord.Member=None, *, reason=None):
@@ -72,6 +73,7 @@ class utility(commands.Cog):
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(ban_members=True)
     @commands.command(description="Bans a user from the discord server.")
     async def ban(self, ctx, member:discord.Member=None, *, reason=None):
@@ -198,6 +200,7 @@ class utility(commands.Cog):
         embed=discord.Embed(title=f"ACTION COMPLETED", color=0x1de97b)
         await ctx.send(embed=embed)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(manage_messages=True)
     @commands.command(description="Purges the specified ammount of messages.")
     async def purge(self, ctx, num: int, target: discord.Member=None):
@@ -215,6 +218,7 @@ class utility(commands.Cog):
         num = num - 1
         await ctx.send(f'`Deleted {num} messages for you.`', delete_after=10)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(manage_messages=True)
     @commands.command(description="Mutes a user for a specified ammount of time.")
     async def mute(self, ctx, member: discord.Member, time: int=None):
@@ -277,7 +281,7 @@ class utility(commands.Cog):
         await member.add_roles(Muted)
         await asyncio.sleep(time)
         await member.remove_roles(Muted)
-
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(manage_messages=True)
     @commands.command(description="Unmutes a user.")
     async def unmute(self, ctx, member: discord.Member=None):

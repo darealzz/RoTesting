@@ -26,6 +26,8 @@ class Errors(commands.Cog):
             await ctx.send("<:rcross:700041862206980146> You must own this bot to use that command!.")
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("<:rcross:700041862206980146> Please provide all aurguments!.")
+        if isinstance(error, commands.MaxConcurrencyReached):
+            await ctx.send("<:rcross:700041862206980146> Please wait for the previous command to finish before executing it again!.")
 
         else:
             Guild = self.bot.get_guild(699991602126389248)

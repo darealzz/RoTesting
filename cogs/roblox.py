@@ -34,6 +34,7 @@ class Roblox(commands.Cog):
             raise discord.ext.commands.CommandNotFound
 
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.has_permissions(manage_guild=True)
     @commands.command()
@@ -132,6 +133,7 @@ class Roblox(commands.Cog):
                 return
 
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.has_permissions(manage_guild=True)
     @commands.command()
@@ -223,6 +225,7 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.has_permissions(manage_guild=True)
     @commands.command()
@@ -316,6 +319,7 @@ class Roblox(commands.Cog):
             await ctx.send(embed=embed)
 
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.command()
     async def showrank(self, ctx, user):
@@ -345,6 +349,7 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             msg = await ctx.send(embed=embed)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.has_permissions(manage_guild=True)
     @commands.command()
@@ -439,6 +444,7 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
 
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.check(configured)
     @commands.has_permissions(manage_guild=True)
     @commands.command()

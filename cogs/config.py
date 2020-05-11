@@ -29,9 +29,10 @@ class Config(commands.Cog):
     #
     def __init__(self, bot):
         self.bot = bot
-
+    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.command(description="Configures your bot with RoSystems.")
     @commands.has_permissions(manage_guild=True)
+
     async def setup(self, ctx):
         """
         Configures your bot with RoSystems.
