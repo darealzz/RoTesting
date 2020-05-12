@@ -188,7 +188,7 @@ class Roblox(commands.Cog):
         roles_json = roles_request.json()
 
         for role in roles_json.get('roles'):
-            if role["rank"] == new:
+            if role["id"] == new:
                 new = role["name"]
 
 
