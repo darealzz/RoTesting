@@ -20,6 +20,7 @@ class Roblox(commands.Cog):
             data = json.load(f)
         if str(ctx.guild.id) in data:
             cookie = data[f"{ctx.guild.id}"]["Cookie"]
+            id = data[f"{ctx.guild.id}"]["ID"]
             client = robloxapi.Client(cookie)
             group = await client.get_group(id)
             await client.get_self()
