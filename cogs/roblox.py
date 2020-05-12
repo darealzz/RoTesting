@@ -183,12 +183,9 @@ class Roblox(commands.Cog):
                 break
         new = user_role + 1
 
-        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-        roles_json = roles_request.json()
-
-        for role in roles_json.get('roles'):
-            if role["rank"] == new:
-                new = role["name"]
+        for role in roles_json:
+            if role.id == new:
+                new = role.nae
 
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
