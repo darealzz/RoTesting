@@ -269,12 +269,19 @@ class Roblox(commands.Cog):
         roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
         roles_json = roles_request.json()
         lst = []
+        new = None
         for role in roles_json.get('roles'):
             if role["name"] == x.name:
                 ransk = x.rank - 1
-        for role in roles_json.get('roles'):
-            if role["rank"] == ransk:
-                new = role["name"]
+        while new == None:
+            for role in roles_json.get('roles'):
+                if role["rank"] == ransk:
+                    new = role["name"]
+            if new == None:
+                ransk = ransk-1
+
+
+
 
 
 
