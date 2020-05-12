@@ -179,6 +179,12 @@ Do not login to this account anymore as it will reset the token.```""", inline=F
                 embed.set_footer(text="All assets owned by RoServices")
                 await ctx.send(embed=embed)
                 return
+            except ValueError:
+                embed=discord.Embed(title="GROUP ID SHOULD BE NUMBERS NOT STRINGS.", color=0xee6551)
+                embed.add_field(name="<:logo:700042045447864520>", value="Type `setup` to restart prompt.", inline=False)
+                embed.set_footer(text="All assets owned by RoServices")
+                await ctx.send(embed=embed)
+                return
 
             groupUsers_request = requests.get(url=f"https://groups.roblox.com/v1/users/{int(x.id)}/groups/roles")
             groupUsers_json = groupUsers_request.json()
