@@ -268,21 +268,24 @@ class Roblox(commands.Cog):
             return
         roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
         roles_json = roles_request.json()
-        lst = []
-        new = None
-        for role in roles_json.get('roles'):
-            if role["name"] == x.name:
-                ransk = x.rank - 1
-        while new == None:
-            for role in roles_json.get('roles'):
-                if role["rank"] == ransk:
-                    new = role["name"]
-            if new == None:
-                ransk = ransk-1
-
-
-
-
+        # lst = []
+        # new = None
+        # for role in roles_json.get('roles'):
+        #     if role["name"] == x.name:
+        #         ransk = x.rank - 1
+        # while new == None:
+        #     for role in roles_json.get('roles'):
+        #         if role["rank"] == ransk:
+        #             new = role["name"]
+        #     if new == None:
+        #         ransk = ransk-1
+        roles_json.sort(key=lambda r: r.rank)
+        user_role = -1
+        for r in roles_json:
+            user_role = user_role + 1
+            if r.id == x.id:
+                break
+        new_user_role = user_role + -1
 
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
