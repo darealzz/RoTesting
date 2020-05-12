@@ -285,7 +285,7 @@ class Roblox(commands.Cog):
             user_role = user_role + 1
             if r.id == x.id:
                 break
-        new_user_role = user_role + -1
+        new = user_role + -1
 
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
