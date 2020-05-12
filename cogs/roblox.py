@@ -173,16 +173,22 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
+        group=await client.get_group(id)
+        roles_json=await group.get_group_roles()
+        roles_json.sort(key=lambda r: r.rank)
+        user_role = -1
+        for r in roles_json:
+            user_role = user_role + 1
+            if r.id == x.id:
+                break
+        new = user_role + -1
+
         roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
         roles_json = roles_request.json()
-        lst = []
-        for role in roles_json.get('roles'):
-            if role["name"] == x.name:
-                ransk = x.rank + 1
-        for role in roles_json.get('roles'):
-            if role["rank"] == ransk:
-                new = role["name"]
 
+        for role in roles_json.get('roles'):
+            if role["rank"] == new:
+                new = role["name"]
 
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
@@ -266,8 +272,7 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
-        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-        roles_json = roles_request.json()
+
         # lst = []
         # new = None
         # for role in roles_json.get('roles'):
