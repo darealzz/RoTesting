@@ -280,7 +280,7 @@ class Roblox(commands.Cog):
         #     if new == None:
         #         ransk = ransk-1
         group=await client.get_group(id)
-        roles_json=await group.get_group_roles(self)
+        roles_json=await group.get_group_roles()
         roles_json.sort(key=lambda r: r.rank)
         user_role = -1
         for r in roles_json:
