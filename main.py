@@ -8,7 +8,82 @@ import jishaku
 import discord
 
 
-bot = commands.Bot(command_prefix='$', case_insensitive=True)
+def get_prefix(bot, message):
+    with open('notusing/prefixes.json', 'r') as f:
+        prefixes = json.load(f)
+    return prefixes[str(message.guild.id)]
+
+bot = commands.Bot(command_prefix=get_prefix, case_insensitive=True)
+
+bot.remove_command("help")
+
+
+@bot.event
+async def on_guild_join(guild):
+    with open("notusing/prefixes.json", "r") as f:
+        prefixes = json.load(f)
+    prefixes[str(guild.id)] = "$"
+    with open("notusing/prefixes.json", "w") as f:
+        json.dump(prefixes, f, indent=4)
+
+@bot.event
+async def on_guild_remove(guild):
+    with open("notusing/prefixes.json", "r") as f:
+        prefixes = json.load(f)
+    prefixes.pop(str(guild.id))
+    with open("notusing/prefixes.json", "w") as f:
+        json.dump(prefixes, f, indent=4)
+
+@bot.command()
+@commands.has_permissions(manage_guild=True)
+async def setprefix(ctx, prefix):
+
+    def reactionCheck(reaction, user):
+        if user == ctx.author and reaction.emoji == tick:
+            return True
+        if user == ctx.author and reaction.emoji == cross:
+            return True
+
+    with open("notusing/prefixes.json", "r") as f:
+        prefixes = json.load(f)
+    old = prefixes[str(ctx.guild.id)]
+    prefixes[str(ctx.guild.id)] = prefix
+
+    embed=discord.Embed(title="PROMPT", color=0x36393e)
+    embed.add_field(name="<:logo:700042045447864520>", value=f'Please confirm that this is the correct data.\n`Old-Prefix`: {old}\n`New-Prefix`: {prefix}', inline=False)
+    embed.set_footer(text="This prompt will automatically cancel in 200 seconds.")
+    msg = await ctx.send(embed=embed)
+    await msg.add_reaction('<:tick:700041815327506532>')
+    await msg.add_reaction('<:rcross:700041862206980146>')
+    tick = bot.get_emoji(700041815327506532)
+    cross = bot.get_emoji(700041862206980146)
+    try:
+        reaction, user = await bot.wait_for('reaction_add', timeout=200, check=reactionCheck)
+    except:
+        embed=discord.Embed(title="PROMPT TIMED OUT", color=0xee6551)
+        embed.add_field(name="<:logo:700042045447864520>", value="Type `setprefix` to restart prompt.", inline=False)
+        embed.set_footer(text="All assets owned by RoSystems")
+        await ctx.send(embed=embed)
+        return
+    else:
+        if reaction.emoji == tick:
+            pass
+        elif reaction.emoji == cross:
+            embed=discord.Embed(title="PROMPT CANCELLED", color=0xee6551)
+            embed.add_field(name="<:logo:700042045447864520>", value="Type `setprefix` to restart prompt.", inline=False)
+            embed.set_footer(text="All assets owned by RoSystems")
+            await ctx.send(embed=embed)
+            return
+
+    with open("notusing/prefixes.json", "w") as f:
+        json.dump(prefixes, f, indent=4)
+
+    embed=discord.Embed(title="ACTION COMPLETED SUCCESFULLY", color=0x1de97b)
+    embed.set_footer(text="All assets owned by RoSystems")
+    await ctx.send(embed=embed)
+    return
+
+
 #bot.remove_command("help")
 bot.load_extension('jishaku')
 bot.remove_command("help")
@@ -144,7 +219,7 @@ async def cogs(ctx):
             await ctx.send(f"`{filename[:-3]}`")
 
 # con.close()
-with open('data/token.json', 'r') as f:
-    data = json.load(f)
-bot.run(f'{data["TOKEN"]}')
-# bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
+# with open('data/token.json', 'r') as f:
+#     data = json.load(f)
+# bot.run(f'{data["TOKEN"]}')
+bot.run('NzAwMDIxNjc3Mjg2ODgzNDQ4.XrKj9A.qTyFu8JGZKqg9hQ5D7--vX715pY')
