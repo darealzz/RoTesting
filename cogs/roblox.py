@@ -266,8 +266,8 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
-        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-        roles_json = roles_request.json()
+        # roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
+        # roles_json = roles_request.json()
         # lst = []
         # new = None
         # for role in roles_json.get('roles'):
@@ -279,6 +279,8 @@ class Roblox(commands.Cog):
         #             new = role["name"]
         #     if new == None:
         #         ransk = ransk-1
+        group=await client.get_group(id)
+        roles_json=await group.get_group_roles(self)
         roles_json.sort(key=lambda r: r.rank)
         user_role = -1
         for r in roles_json:
