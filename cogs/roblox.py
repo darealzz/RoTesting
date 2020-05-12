@@ -181,7 +181,7 @@ class Roblox(commands.Cog):
             user_role = user_role + 1
             if r.id == x.id:
                 break
-        new = user_role + -1
+        new = user_role + 1
 
         roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
         roles_json = roles_request.json()
