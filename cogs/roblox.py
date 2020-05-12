@@ -184,7 +184,7 @@ class Roblox(commands.Cog):
         new = user_role + 1
 
         for role in roles_json:
-            if role.rank == new:
+            if role.id == new:
                 new = role.name
 
 
