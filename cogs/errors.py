@@ -22,12 +22,16 @@ class Errors(commands.Cog):
             return
         if isinstance(error, commands.BadArgument):
             await ctx.send("<:rcross:700041862206980146> You did not give valid peramiters for that command!.")
+            return
         if isinstance(error, commands.NotOwner):
             await ctx.send("<:rcross:700041862206980146> You must own this bot to use that command!.")
+            return
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("<:rcross:700041862206980146> Please provide all aurguments!.")
+            return
         if isinstance(error, commands.MaxConcurrencyReached):
             await ctx.send("<:rcross:700041862206980146> Please wait for the previous command to finish before executing it again!.")
+            return
 
         else:
             Guild = self.bot.get_guild(699991602126389248)
