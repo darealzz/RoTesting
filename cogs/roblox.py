@@ -266,8 +266,8 @@ class Roblox(commands.Cog):
             embed.set_footer(text="All assets owned by RoSystems")
             await ctx.send(embed=embed)
             return
-        # roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
-        # roles_json = roles_request.json()
+        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
+        roles_json = roles_request.json()
         # lst = []
         # new = None
         # for role in roles_json.get('roles'):
@@ -289,6 +289,12 @@ class Roblox(commands.Cog):
                 break
         new = user_role + -1
 
+        roles_request = requests.get(url=f'https://groups.roblox.com/v1/groups/{id}/roles')
+        roles_json = roles_request.json()
+
+        for role in roles_json.get('roles'):
+            if role["rank"] == new:
+                new = role["name"]
 
         embed=discord.Embed(title="PROMPT", color=0x36393e)
         embed.add_field(name="<:logo:700042045447864520>", value=f"Please confirm that this is the correct data.\n`Account-name`: {user_name}\n`Account-ID`: {user_Id}\n`Currant-rank`: {x.name}\n`New-rank`: {new}\n\nsay **cancel** to cancel.", inline=False)
