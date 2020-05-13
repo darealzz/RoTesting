@@ -218,7 +218,7 @@ class utility(commands.Cog):
         num = num - 1
         await ctx.send(f'`Deleted {num} messages for you.`', delete_after=10)
 
-    @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
+    # @commands.max_concurrency(1, per=discord.ext.commands.BucketType.user)
     @commands.has_permissions(manage_messages=True)
     @commands.command(description="Mutes a user for a specified ammount of time.")
     async def mute(self, ctx, member: discord.Member, time: int=None):
